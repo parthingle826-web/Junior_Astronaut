@@ -2,6 +2,14 @@
 > **Tagline:** *"Train. Decide. Explore. Become a Junior Astronaut."*  
 > **NASA Space Apps Challenge Entry**
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://your-project-name.vercel.app)
+[![GitHub Repo](https://img.shields.io/badge/Source-GitHub-181717?style=for-the-badge&logo=github)](https://github.com/your-username/your-repo-name)
+
+**🔗 Live Demo:** [https://junior-astronaut-56yh.vercel.app/](https://junior-astronaut-56yh.vercel.app/)
+**💻 Source Code:** [https://github.com/parthingle826-web/Junior_Astronaut](https://github.com/parthingle826-web/Junior_Astronaut)
+
+>
+
 An interactive, high-fidelity astronaut training and mission flight simulation web application designed for students and aspiring aerospace explorers. Cadets enroll, master orbital dynamics and ECLSS life support, execute pre-launch pad checklists, navigate critical cislunar emergencies, perform a powered lunar descent, conduct 6 surface science tasks at Shackleton Crater, query authentic NASA planetary data, and earn a personalized achievement certificate.
 
 ---
@@ -140,6 +148,16 @@ Open **`http://localhost:5173`** in your browser.
 
 ---
 
+## ☁️ Deployment
+
+- **Frontend (Vercel):** Deploy the `frontend/` folder directly to Vercel as a static Vite build. Set the project root to `frontend`, build command to `npm run build`, and output directory to `dist`.
+- **Backend (FastAPI):** Vercel's serverless functions can run Python, but a persistent FastAPI app with streaming/AI calls is generally better suited to a dedicated host such as **Render**, **Railway**, or **Fly.io**. Deploy `backend/` there and point the frontend's API base URL at that backend's public URL via an environment variable (e.g. `VITE_API_BASE_URL`).
+- Set `NASA_API_KEY`, `AI_API_KEY`, and `AI_PROVIDER` as environment variables on whichever platform hosts the backend — never in the frontend's Vercel environment variables, since those are exposed to the client bundle.
+
+**Live Demo:** [https://junior-astronaut-56yh.vercel.app/](https://junior-astronaut-56yh.vercel.app/) 
+
+---
+
 ## 🏆 Hackathon Priority Demo Flow (3-Minute Tour)
 
 1. **Landing Page:** Click **"Start Your Mission"** or use the **"Judge Fast Track"** banner.
@@ -161,3 +179,9 @@ Open **`http://localhost:5173`** in your browser.
 - **Educational Simulation:** This application is an educational simulation created for the NASA Space Apps Challenge.
 - **Official Credentials:** Project-generated achievement certificates are non-commercial simulation honors and do not constitute official government or NASA credentials.
 - **Scientific Integrity:** All NASA data is drawn from official NASA endpoints or verified archives from the NASA Planetary Data System. Fictional data is never presented as NASA scientific findings.
+
+---
+
+## 📄 License
+
+Add your chosen license here (e.g. MIT) and include a `LICENSE` file in the repository root if you intend to open-source this project.
