@@ -21,10 +21,32 @@ import CertificateView from './pages/CertificateView';
 import LeaderboardPage from './pages/LeaderboardPage';
 import AboutPage from './pages/AboutPage';
 
-import { Bot } from 'lucide-react';
+import { Bot, ShieldAlert, X } from 'lucide-react';
+
+/**
+ * Route Guard Component
+ * Ensures only enrolled astronauts can access protected views.
+ * If no astronaut profile is active in state/localStorage, it immediately blocks rendering
+ * and redirects to registration or landing.
+ */
+function ProtectedRoute({ children }) {
+  const { astronaut, navigateTo } = useMission();
+
+  React.useEffect(() => {
+    if (!astronaut) {
+      navigateTo('landing', { replace: true, targetOnBlocked: 'landing' });
+    }
+  }, [astronaut, navigateTo]);
+
+  if (!astronaut) {
+    return null;
+  }
+
+  return children;
+}
 
 function AppContent() {
-  const { currentView } = useMission();
+  const { currentView, routeNotice, clearRouteNotice } = useMission();
   const [isAstraOpen, setIsAstraOpen] = useState(false);
 
   const renderView = () => {
@@ -34,29 +56,29 @@ function AppContent() {
       case 'register':
         return <AstronautRegistration />;
       case 'dashboard':
-        return <AstronautDashboard />;
+        return <ProtectedRoute><AstronautDashboard /></ProtectedRoute>;
       case 'training':
-        return <TrainingCenter />;
+        return <ProtectedRoute><TrainingCenter /></ProtectedRoute>;
       case 'briefing':
-        return <MissionBriefing />;
+        return <ProtectedRoute><MissionBriefing /></ProtectedRoute>;
       case 'launch':
-        return <LaunchSequence />;
+        return <ProtectedRoute><LaunchSequence /></ProtectedRoute>;
       case 'mission_control':
-        return <MissionControl />;
+        return <ProtectedRoute><MissionControl /></ProtectedRoute>;
       case 'moon_landing':
-        return <MoonLanding />;
+        return <ProtectedRoute><MoonLanding /></ProtectedRoute>;
       case 'lunar_exploration':
-        return <LunarExploration />;
+        return <ProtectedRoute><LunarExploration /></ProtectedRoute>;
       case 'nasa_data':
-        return <NasaDataExplorer />;
+        return <ProtectedRoute><NasaDataExplorer /></ProtectedRoute>;
       case 'report':
-        return <MissionReport />;
+        return <ProtectedRoute><MissionReport /></ProtectedRoute>;
       case 'certificate':
-        return <CertificateView />;
+        return <ProtectedRoute><CertificateView /></ProtectedRoute>;
       case 'leaderboard':
-        return <LeaderboardPage />;
+        return <ProtectedRoute><LeaderboardPage /></ProtectedRoute>;
       case 'about':
-        return <AboutPage />;
+        return <ProtectedRoute><AboutPage /></ProtectedRoute>;
       default:
         return <LandingPage />;
     }
@@ -65,6 +87,25 @@ function AppContent() {
   return (
     <div className="min-h-screen flex flex-col bg-space-950 stars-bg text-slate-100 font-sans">
       <Navbar />
+
+      {/* Route Guard Notice Toast */}
+      {routeNotice && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-lg px-4 pointer-events-auto animate-fadeIn">
+          <div className="p-3.5 rounded-xl bg-amber-950/95 border border-amber-500/60 shadow-2xl flex items-center justify-between text-amber-200 text-xs font-mono">
+            <div className="flex items-center gap-2.5">
+              <ShieldAlert className="w-5 h-5 text-amber-400 shrink-0" />
+              <span>{routeNotice}</span>
+            </div>
+            <button 
+              onClick={clearRouteNotice}
+              className="p-1 hover:bg-amber-900/60 rounded text-amber-400 hover:text-white"
+              aria-label="Dismiss notice"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
 
       <main className="flex-1">
         {renderView()}

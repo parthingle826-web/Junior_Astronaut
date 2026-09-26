@@ -24,8 +24,15 @@ export default function MissionControl() {
   } = useMission();
 
   const [scenarios, setScenarios] = useState(DEFAULT_SCENARIOS);
-  const [selectedScenarioForModal, setSelectedScenarioForModal] = useState(null);
+  const [selectedScenarioForModal, setSelectedScenarioForModal] = useState(activeEmergency);
   const [isAstraChatOpen, setIsAstraChatOpen] = useState(false);
+
+  // Sync selectedScenarioForModal if activeEmergency changes or is restored
+  useEffect(() => {
+    if (activeEmergency) {
+      setSelectedScenarioForModal(activeEmergency);
+    }
+  }, [activeEmergency]);
 
   // Fetch available emergency scenarios with robust fallback
   useEffect(() => {
@@ -38,6 +45,8 @@ export default function MissionControl() {
       if (!activeEmergency && missionState.emergenciesResolved === 0 && list.length > 0) {
         setSelectedScenarioForModal(list[0]);
         setActiveEmergency(list[0]);
+      } else if (activeEmergency) {
+        setSelectedScenarioForModal(activeEmergency);
       }
     });
     return () => { isMounted = false; };
