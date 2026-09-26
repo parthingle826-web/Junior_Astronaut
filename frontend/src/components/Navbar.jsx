@@ -13,11 +13,21 @@ import {
   Menu, 
   X, 
   RotateCcw,
-  Sparkles
+  Sparkles,
+  LogOut
 } from 'lucide-react';
 
 export default function Navbar() {
-  const { currentView, navigateTo, astronaut, missionState, getAstronautRank, activateDemoMode, resetMission } = useMission();
+  const { 
+    currentView, 
+    navigateTo, 
+    astronaut, 
+    missionState, 
+    getAstronautRank, 
+    activateDemoMode, 
+    resetMission,
+    requestLogout 
+  } = useMission();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [demoDropdownOpen, setDemoDropdownOpen] = useState(false);
 
@@ -152,17 +162,30 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Astronaut Profile Pill */}
+            {/* Astronaut Profile Pill & Logout Button */}
             {astronaut ? (
-              <div 
-                onClick={() => handleNavClick('dashboard')}
-                className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900 border border-cyan-500/30 cursor-pointer hover:border-cyan-400 transition"
-              >
-                <span className="text-base">{astronaut.avatar || '👨‍🚀'}</span>
-                <div className="text-left">
-                  <div className="text-xs font-semibold text-slate-200 leading-tight">{astronaut.name}</div>
-                  <div className="text-[10px] font-mono text-cyan-400 leading-none">{rank} • {missionState.xp} XP</div>
+              <div className="flex items-center gap-2">
+                <div 
+                  onClick={() => handleNavClick('dashboard')}
+                  className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900 border border-cyan-500/30 cursor-pointer hover:border-cyan-400 transition"
+                  title="View Cadet Dashboard"
+                >
+                  <span className="text-base">{astronaut.avatar || '👨‍🚀'}</span>
+                  <div className="text-left">
+                    <div className="text-xs font-semibold text-slate-200 leading-tight">{astronaut.name}</div>
+                    <div className="text-[10px] font-mono text-cyan-400 leading-none">{rank} • {missionState.xp} XP</div>
+                  </div>
                 </div>
+
+                {/* Logout Button (Only visible when astronaut exists) */}
+                <button
+                  onClick={requestLogout}
+                  title="Logout / Switch Astronaut (Clears saved session for next candidate)"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/60 border border-red-500/40 hover:border-red-400 text-red-300 hover:text-white text-xs font-mono transition shadow-sm"
+                >
+                  <LogOut className="w-3.5 h-3.5 text-red-400" />
+                  <span className="hidden xl:inline">Logout</span>
+                </button>
               </div>
             ) : (
               <button
@@ -206,18 +229,27 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="md:hidden bg-space-950 border-b border-cyan-500/30 px-4 pt-2 pb-4 space-y-2">
           {astronaut && (
-            <div className="p-3 bg-slate-900 rounded-lg border border-cyan-500/30 mb-2 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-xl">{astronaut.avatar}</span>
-                <div>
-                  <div className="text-sm font-bold text-white">{astronaut.name}</div>
-                  <div className="text-xs font-mono text-cyan-400">{astronaut.id} • {rank}</div>
+            <div className="p-3 bg-slate-900 rounded-lg border border-cyan-500/30 mb-2 space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">{astronaut.avatar}</span>
+                  <div>
+                    <div className="text-sm font-bold text-white">{astronaut.name}</div>
+                    <div className="text-xs font-mono text-cyan-400">{astronaut.id} • {rank}</div>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-xs text-slate-400">Total XP</div>
+                  <div className="font-mono font-bold text-cyan-300">{missionState.xp}</div>
                 </div>
               </div>
-              <div className="text-right">
-                <div className="text-xs text-slate-400">Total XP</div>
-                <div className="font-mono font-bold text-cyan-300">{missionState.xp}</div>
-              </div>
+              <button
+                onClick={() => { setMobileMenuOpen(false); requestLogout(); }}
+                className="w-full py-1.5 px-3 rounded bg-red-950/60 border border-red-500/40 text-red-300 text-xs font-mono flex items-center justify-center gap-2 hover:bg-red-900/80 transition"
+              >
+                <LogOut className="w-3.5 h-3.5 text-red-400" />
+                <span>Switch Cadet / Logout</span>
+              </button>
             </div>
           )}
 

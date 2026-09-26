@@ -12,7 +12,8 @@ import {
   Sparkles, 
   CheckCircle2, 
   Lock,
-  UserCheck
+  UserCheck,
+  LogOut
 } from 'lucide-react';
 
 export default function AstronautDashboard() {
@@ -22,7 +23,8 @@ export default function AstronautDashboard() {
     trainingScores, 
     lunarSolved, 
     getAstronautRank, 
-    navigateTo 
+    navigateTo,
+    requestLogout
   } = useMission();
 
   if (!astronaut) {
@@ -75,8 +77,17 @@ export default function AstronautDashboard() {
           </div>
         </div>
 
-        {/* Quick Launch Button */}
-        <div className="flex items-center gap-3">
+        {/* Actions: Quick Launch & Switch Candidate */}
+        <div className="flex flex-col sm:flex-row items-center gap-3">
+          <button
+            onClick={requestLogout}
+            title="Switch Candidate (Clears saved session so a new astronaut can register)"
+            className="w-full sm:w-auto px-5 py-3.5 rounded-xl bg-slate-900/90 hover:bg-red-950/40 border border-slate-700 hover:border-red-500/50 text-slate-300 hover:text-red-300 font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2"
+          >
+            <LogOut className="w-4 h-4 text-red-400" />
+            <span>Switch Astronaut</span>
+          </button>
+
           <button
             onClick={() => {
               if (completedTrainingCount < 4) {
@@ -89,7 +100,7 @@ export default function AstronautDashboard() {
                 navigateTo('report');
               }
             }}
-            className="w-full md:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2"
           >
             <Rocket className="w-4 h-4" />
             <span>

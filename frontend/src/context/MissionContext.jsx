@@ -66,9 +66,16 @@ export function MissionProvider({ children }) {
   const [activeEmergency, setActiveEmergency] = useState(null);
   const [lastFeedback, setLastFeedback] = useState(null);
 
+  // Logout modal state
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
   // Sync with LocalStorage
   useEffect(() => {
-    if (astronaut) localStorage.setItem('jamt_astronaut', JSON.stringify(astronaut));
+    if (astronaut) {
+      localStorage.setItem('jamt_astronaut', JSON.stringify(astronaut));
+    } else {
+      localStorage.removeItem('jamt_astronaut');
+    }
     localStorage.setItem('jamt_mission_state', JSON.stringify(missionState));
     localStorage.setItem('jamt_training', JSON.stringify(trainingScores));
     localStorage.setItem('jamt_lunar_solved', JSON.stringify(lunarSolved));
@@ -290,12 +297,25 @@ export function MissionProvider({ children }) {
     navigateTo(targetView);
   };
 
-  // Reset entire mission simulation
-  const resetMission = () => {
+  // Request, Cancel & Confirm Astronaut Logout (Switch Candidate Flow)
+  const requestLogout = () => {
+    setIsLogoutModalOpen(true);
+  };
+
+  const cancelLogout = () => {
+    setIsLogoutModalOpen(false);
+  };
+
+  const confirmLogout = (targetRedirect = 'landing') => {
+    // 1. Clear all localStorage items scoped to this astronaut & mission
+    localStorage.removeItem('jamt_astronaut');
     localStorage.removeItem('jamt_mission_state');
     localStorage.removeItem('jamt_training');
     localStorage.removeItem('jamt_lunar_solved');
     localStorage.removeItem('jamt_view');
+
+    // 2. Reset all in-memory React states back to defaults
+    setAstronaut(null);
     setMissionState(INITIAL_TELEMETRY);
     setTrainingScores({});
     setLunarSolved({});
@@ -308,7 +328,15 @@ export function MissionProvider({ children }) {
     });
     setActiveEmergency(null);
     setLastFeedback(null);
-    navigateTo('landing');
+    setIsLogoutModalOpen(false);
+
+    // 3. Cleanly redirect next candidate
+    navigateTo(targetRedirect);
+  };
+
+  // Reset entire mission simulation (clears active candidate and restarts)
+  const resetMission = () => {
+    confirmLogout('landing');
   };
 
   // Rank computation
@@ -342,6 +370,10 @@ export function MissionProvider({ children }) {
       solveLunarChallenge,
       activateDemoMode,
       resetMission,
+      isLogoutModalOpen,
+      requestLogout,
+      cancelLogout,
+      confirmLogout,
       getAstronautRank
     }}>
       {children}
