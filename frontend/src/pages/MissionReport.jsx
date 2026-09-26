@@ -12,6 +12,7 @@ import {
   FileText,
   RotateCcw
 } from 'lucide-react';
+import { safeFetchJson } from '../utils/api';
 
 export default function MissionReport() {
   const { 
@@ -39,46 +40,34 @@ export default function MissionReport() {
       trainingScore: trainingAvg
     };
 
-    fetch('/api/missions/report', {
+    const lunarCount = Object.keys(lunarSolved).length;
+    const science = Math.min(100, Math.round((lunarCount / 6) * 60 + (trainingAvg / 100) * 40));
+    const safety = Math.min(100, Math.round(missionState.missionHealth * 0.5 + missionState.oxygen * 0.3 + 20));
+    const resolved = missionState.emergenciesResolved || 1;
+    const decision = Math.min(100, Math.round((resolved / Math.max(1, resolved + (missionState.emergenciesFailed || 0))) * 100));
+    const exploration = Math.min(100, Math.round((lunarCount / 6) * 100));
+    const overall = Math.round(science * 0.3 + safety * 0.3 + decision * 0.25 + exploration * 0.15);
+
+    const fallbackReport = {
+      astronautName: astronaut?.name || "Cadet",
+      astronautId: astronaut?.id || "AST-2048",
+      missionName: "Artemis Lunar Research Simulation",
+      scores: { science, safety, decision, exploration, overall },
+      achievementLevel: overall >= 85 ? "Senior Flight Astronaut" : "Certified Mission Aviator",
+      assignedRank: overall >= 85 ? "Junior Astronaut" : "Mission Cadet",
+      summary: `Cadet ${astronaut?.name || 'Cadet'} has successfully completed the Artemis Lunar Research Simulation with an overall rating of ${overall}%. Flight systems sustained nominal operations.`,
+      disclaimer: "This is a project-generated achievement certificate for an educational simulation — not an official NASA certification."
+    };
+
+    safeFetchJson('/api/missions/report', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
-    })
-      .then(async res => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const contentType = res.headers.get('content-type') || '';
-        if (!contentType.includes('application/json')) throw new Error('Non-JSON response');
-        return await res.json();
-      })
-      .then(data => {
-        if (!isMounted) return;
-        setReport(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.warn("Generating client report fallback:", err);
-        if (!isMounted) return;
-        // Compute client fallback report
-        const lunarCount = Object.keys(lunarSolved).length;
-        const science = Math.min(100, Math.round((lunarCount / 6) * 60 + (trainingAvg / 100) * 40));
-        const safety = Math.min(100, Math.round(missionState.missionHealth * 0.5 + missionState.oxygen * 0.3 + 20));
-        const resolved = missionState.emergenciesResolved || 1;
-        const decision = Math.min(100, Math.round((resolved / Math.max(1, resolved + (missionState.emergenciesFailed || 0))) * 100));
-        const exploration = Math.min(100, Math.round((lunarCount / 6) * 100));
-        const overall = Math.round(science * 0.3 + safety * 0.3 + decision * 0.25 + exploration * 0.15);
-
-        setReport({
-          astronautName: astronaut?.name || "Cadet",
-          astronautId: astronaut?.id || "AST-2048",
-          missionName: "Artemis Lunar Research Simulation",
-          scores: { science, safety, decision, exploration, overall },
-          achievementLevel: overall >= 85 ? "Senior Flight Astronaut" : "Certified Mission Aviator",
-          assignedRank: overall >= 85 ? "Junior Astronaut" : "Mission Cadet",
-          summary: `Cadet ${astronaut?.name || 'Cadet'} has successfully completed the Artemis Lunar Research Simulation with an overall rating of ${overall}%. Flight systems sustained nominal operations.`,
-          disclaimer: "This is a project-generated achievement certificate for an educational simulation — not an official NASA certification."
-        });
-        setLoading(false);
-      });
+    }, fallbackReport).then(data => {
+      if (!isMounted) return;
+      setReport(data || fallbackReport);
+      setLoading(false);
+    });
 
     return () => { isMounted = false; };
   }, []);
