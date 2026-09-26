@@ -6,14 +6,9 @@ import {
   Moon, 
   Sun, 
   ArrowRight, 
-  ExternalLink, 
   Sparkles, 
-  ShieldCheck, 
   Info,
-  Calendar,
-  Layers,
-  Flame,
-  Award
+  Flame
 } from 'lucide-react';
 
 import { 

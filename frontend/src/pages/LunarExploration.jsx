@@ -3,29 +3,21 @@ import { useMission } from '../context/MissionContext';
 import { 
   Compass, 
   CheckCircle2, 
-  XCircle, 
   ArrowRight, 
-  MapPin, 
   Sparkles, 
-  Award, 
-  Bot, 
   Database,
-  Moon,
-  Thermometer,
-  Layers,
-  Radio
+  Moon
 } from 'lucide-react';
 
 import { DEFAULT_LUNAR_CHALLENGES } from '../data/missionsData';
 import { safeFetchJson } from '../utils/api';
 
 export default function LunarExploration() {
-  const { lunarSolved, solveLunarChallenge, navigateTo, missionState } = useMission();
+  const { lunarSolved, solveLunarChallenge, navigateTo } = useMission();
 
   const [challenges, setChallenges] = useState(DEFAULT_LUNAR_CHALLENGES);
   const [activeChallengeId, setActiveChallengeId] = useState('crater-id');
   const [selectedAnswers, setSelectedAnswers] = useState({});
-  const [feedback, setFeedback] = useState({});
 
   useEffect(() => {
     let isMounted = true;
@@ -49,12 +41,7 @@ export default function LunarExploration() {
   const handleSubmitChallenge = async (challengeId) => {
     const selected = selectedAnswers[challengeId];
     if (!selected) return;
-
-    const res = await solveLunarChallenge(challengeId, selected);
-    setFeedback(prev => ({
-      ...prev,
-      [challengeId]: res
-    }));
+    await solveLunarChallenge(challengeId, selected);
   };
 
   // Map coordinates representing 6 exploration sites near Lunar South Pole

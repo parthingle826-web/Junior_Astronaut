@@ -66,6 +66,38 @@ DEMO_LEADERBOARD = [
     }
 ]
 
+from pydantic import BaseModel
+
+class LeaderboardSubmission(BaseModel):
+    name: str
+    id: str = "AST-9999"
+    score: int = 100
+    xp: int = 150
+    mission: str = "Artemis Lunar Research"
+    status: str = "Junior Astronaut"
+    badgeCount: int = 3
+    badgeIcons: List[str] = ["🚀", "🌙", "⚡"]
+
 @router.get("")
 async def get_leaderboard():
     return DEMO_LEADERBOARD
+
+@router.post("")
+async def submit_score(entry: LeaderboardSubmission):
+    new_entry = {
+        "rank": len(DEMO_LEADERBOARD) + 1,
+        "name": entry.name,
+        "id": entry.id,
+        "score": entry.score,
+        "xp": entry.xp,
+        "mission": entry.mission,
+        "badgeCount": entry.badgeCount,
+        "status": entry.status,
+        "badgeIcons": entry.badgeIcons
+    }
+    DEMO_LEADERBOARD.append(new_entry)
+    # Re-sort by score descending
+    DEMO_LEADERBOARD.sort(key=lambda x: x["score"], reverse=True)
+    for idx, item in enumerate(DEMO_LEADERBOARD):
+        item["rank"] = idx + 1
+    return {"status": "success", "leaderboard": DEMO_LEADERBOARD[:10]}

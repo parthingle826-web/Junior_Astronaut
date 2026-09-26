@@ -13,14 +13,17 @@ async def get_apod():
     return await NasaService.get_apod()
 
 @router.get("/earth")
+@router.get("/epic")
 async def get_earth():
     return await NasaService.get_earth_epic()
 
 @router.get("/moon")
+@router.get("/lro")
 async def get_moon():
     return await NasaService.get_moon_data()
 
 @router.get("/space-weather")
+@router.get("/donki")
 async def get_space_weather():
     return await NasaService.get_space_weather()
 

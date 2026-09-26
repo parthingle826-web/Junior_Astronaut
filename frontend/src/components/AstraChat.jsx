@@ -7,9 +7,7 @@ import {
   Sparkles, 
   Radio, 
   GraduationCap, 
-  ShieldAlert, 
-  Minimize2,
-  Maximize2
+  ShieldAlert
 } from 'lucide-react';
 
 export default function AstraChat({ isOpen, onClose }) {

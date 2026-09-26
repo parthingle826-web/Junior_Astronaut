@@ -3,16 +3,6 @@ import { DEFAULT_SCENARIOS, DEFAULT_LUNAR_CHALLENGES } from '../data/missionsDat
 
 const MissionContext = createContext();
 
-const INITIAL_ASTRONAUT = {
-  id: "AST-2048",
-  name: "Alex Vance",
-  callsign: "Starlight",
-  ageGroup: "13-16",
-  missionId: "lunar_research",
-  avatar: "🚀",
-  registeredAt: new Date().toISOString()
-};
-
 const INITIAL_TELEMETRY = {
   oxygen: 100,
   power: 100,

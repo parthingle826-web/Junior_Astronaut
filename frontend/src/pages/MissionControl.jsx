@@ -4,17 +4,10 @@ import TelemetryHUD from '../components/TelemetryHUD';
 import EmergencyAlertModal from '../components/EmergencyAlertModal';
 import AstraChat from '../components/AstraChat';
 import { 
-  Radio, 
   AlertOctagon, 
   Bot, 
-  Compass, 
   CheckCircle2, 
   ArrowRight, 
-  ShieldAlert, 
-  RotateCcw,
-  Sparkles,
-  Zap,
-  Globe,
   Moon
 } from 'lucide-react';
 
@@ -26,14 +19,12 @@ export default function MissionControl() {
     missionState, 
     activeEmergency, 
     setActiveEmergency, 
-    lastFeedback,
     navigateTo 
   } = useMission();
 
   const [scenarios, setScenarios] = useState(DEFAULT_SCENARIOS);
   const [selectedScenarioForModal, setSelectedScenarioForModal] = useState(null);
   const [isAstraChatOpen, setIsAstraChatOpen] = useState(false);
-  const [flightPhase, setFlightPhase] = useState('Trans-Lunar Coast');
 
   // Fetch available emergency scenarios with robust fallback
   useEffect(() => {

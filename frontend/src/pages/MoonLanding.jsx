@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useMission } from '../context/MissionContext';
 import { 
-  Compass, 
-  Flame, 
   CheckCircle2, 
   ArrowRight, 
   AlertTriangle, 
-  Activity, 
-  Fuel, 
-  Sparkles,
   Moon
 } from 'lucide-react';
 

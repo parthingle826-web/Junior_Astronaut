@@ -6,9 +6,6 @@ import {
   AlertTriangle, 
   ArrowRight, 
   Flame, 
-  Gauge, 
-  ShieldCheck, 
-  RotateCcw,
   Sparkles
 } from 'lucide-react';
 

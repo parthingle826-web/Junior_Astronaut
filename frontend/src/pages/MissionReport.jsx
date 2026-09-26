@@ -5,12 +5,7 @@ import {
   ShieldCheck, 
   CheckCircle2, 
   ArrowRight, 
-  Bot, 
-  Sparkles, 
-  Compass, 
-  Activity, 
-  FileText,
-  RotateCcw
+  Sparkles
 } from 'lucide-react';
 import { safeFetchJson } from '../utils/api';
 
@@ -20,8 +15,7 @@ export default function MissionReport() {
     missionState, 
     trainingScores, 
     lunarSolved, 
-    navigateTo, 
-    resetMission 
+    navigateTo 
   } = useMission();
 
   const [report, setReport] = useState(null);
