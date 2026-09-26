@@ -16,19 +16,26 @@ import {
   Radio
 } from 'lucide-react';
 
+import { DEFAULT_LUNAR_CHALLENGES } from '../data/missionsData';
+import { safeFetchJson } from '../utils/api';
+
 export default function LunarExploration() {
   const { lunarSolved, solveLunarChallenge, navigateTo, missionState } = useMission();
 
-  const [challenges, setChallenges] = useState([]);
+  const [challenges, setChallenges] = useState(DEFAULT_LUNAR_CHALLENGES);
   const [activeChallengeId, setActiveChallengeId] = useState('crater-id');
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [feedback, setFeedback] = useState({});
 
   useEffect(() => {
-    fetch('/api/missions/lunar-challenges')
-      .then(res => res.json())
-      .then(data => setChallenges(data))
-      .catch(err => console.error("Error fetching lunar challenges:", err));
+    let isMounted = true;
+    safeFetchJson('/api/missions/lunar-challenges', {}, DEFAULT_LUNAR_CHALLENGES).then(data => {
+      if (!isMounted) return;
+      if (Array.isArray(data) && data.length > 0) {
+        setChallenges(data);
+      }
+    });
+    return () => { isMounted = false; };
   }, []);
 
   const activeChallenge = challenges.find(c => c.id === activeChallengeId) || challenges[0];

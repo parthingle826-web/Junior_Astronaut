@@ -16,12 +16,20 @@ import {
   Award
 } from 'lucide-react';
 
+import { 
+  CLIENT_FALLBACK_EARTH, 
+  CLIENT_FALLBACK_MOON, 
+  CLIENT_FALLBACK_MARS, 
+  CLIENT_FALLBACK_SPACE_WEATHER 
+} from '../data/nasaFallbackData';
+import { safeFetchJson } from '../utils/api';
+
 export default function NasaDataExplorer() {
   const { navigateTo, missionState, setMissionState } = useMission();
 
   const [activeCategory, setActiveCategory] = useState('earth'); // earth, moon, mars, space_weather
-  const [dataPayload, setDataPayload] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [dataPayload, setDataPayload] = useState(CLIENT_FALLBACK_EARTH);
+  const [loading, setLoading] = useState(false);
 
   // Award Science Explorer Badge when user analyzes NASA data
   useEffect(() => {
@@ -35,22 +43,21 @@ export default function NasaDataExplorer() {
   }, []);
 
   useEffect(() => {
+    let isMounted = true;
     setLoading(true);
     let endpoint = '/api/nasa/earth';
-    if (activeCategory === 'moon') endpoint = '/api/nasa/moon';
-    if (activeCategory === 'mars') endpoint = '/api/nasa/mars';
-    if (activeCategory === 'space_weather') endpoint = '/api/nasa/space-weather';
+    let fallback = CLIENT_FALLBACK_EARTH;
+    if (activeCategory === 'moon') { endpoint = '/api/nasa/moon'; fallback = CLIENT_FALLBACK_MOON; }
+    if (activeCategory === 'mars') { endpoint = '/api/nasa/mars'; fallback = CLIENT_FALLBACK_MARS; }
+    if (activeCategory === 'space_weather') { endpoint = '/api/nasa/space-weather'; fallback = CLIENT_FALLBACK_SPACE_WEATHER; }
 
-    fetch(endpoint)
-      .then(res => res.json())
-      .then(data => {
-        setDataPayload(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("NASA data fetch error:", err);
-        setLoading(false);
-      });
+    safeFetchJson(endpoint, {}, fallback).then(data => {
+      if (!isMounted) return;
+      setDataPayload(data || fallback);
+      setLoading(false);
+    });
+
+    return () => { isMounted = false; };
   }, [activeCategory]);
 
   return (

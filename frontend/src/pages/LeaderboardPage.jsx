@@ -2,22 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { useMission } from '../context/MissionContext';
 import { Award, Trophy, Medal, Sparkles, User, ArrowRight } from 'lucide-react';
 
+import { safeFetchJson } from '../utils/api';
+
+const DEFAULT_LEADERBOARD = [
+  { rank: 1, name: "Commander Elena Vance", id: "AST-1082", score: 1420, xp: 1850, mission: "Artemis Lunar Research", status: "Mission Specialist" },
+  { rank: 2, name: "Cadet Marcus Chen", id: "AST-3304", score: 1280, xp: 1600, mission: "Artemis Lunar Research", status: "Junior Astronaut" },
+  { rank: 3, name: "Pilot Aisha Al-Mansoor", id: "AST-4412", score: 1190, xp: 1450, mission: "Artemis Lunar Research", status: "Junior Astronaut" },
+  { rank: 4, name: "Flight Eng. Liam O'Connor", id: "AST-2891", score: 1050, xp: 1300, mission: "Artemis Lunar Research", status: "Mission Cadet" },
+  { rank: 5, name: "Science Cadet Maya Lin", id: "AST-5190", score: 980, xp: 1150, mission: "Artemis Lunar Research", status: "Mission Cadet" }
+];
+
 export default function LeaderboardPage() {
   const { astronaut, missionState, getAstronautRank, navigateTo } = useMission();
-  const [cadets, setCadets] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [cadets, setCadets] = useState(DEFAULT_LEADERBOARD);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch('/api/leaderboard')
-      .then(res => res.json())
-      .then(data => {
+    let isMounted = true;
+    safeFetchJson('/api/leaderboard', {}, DEFAULT_LEADERBOARD).then(data => {
+      if (!isMounted) return;
+      if (Array.isArray(data) && data.length > 0) {
         setCadets(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Leaderboard fetch error:", err);
-        setLoading(false);
-      });
+      }
+    });
+    return () => { isMounted = false; };
   }, []);
 
   const rank = getAstronautRank();

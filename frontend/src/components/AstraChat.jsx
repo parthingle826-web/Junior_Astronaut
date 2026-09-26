@@ -74,16 +74,21 @@ export default function AstraChat({ isOpen, onClose }) {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        setMessages(prev => [
-          ...prev,
-          {
-            sender: 'astra',
-            text: data.reply || "Telemetry acknowledged. All systems nominal.",
-            provider: data.provider,
-            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-          }
-        ]);
+        const contentType = response.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          const data = await response.json();
+          setMessages(prev => [
+            ...prev,
+            {
+              sender: 'astra',
+              text: data.reply || "Telemetry acknowledged. All systems nominal.",
+              provider: data.provider,
+              timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            }
+          ]);
+        } else {
+          throw new Error('Non-JSON response from ASTRA');
+        }
       } else {
         throw new Error('ASTRA offline');
       }

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { DEFAULT_SCENARIOS, DEFAULT_LUNAR_CHALLENGES } from '../data/missionsData';
 
 const MissionContext = createContext();
 
@@ -144,19 +145,58 @@ export function MissionProvider({ children }) {
         })
       });
       if (response.ok) {
-        const result = await response.json();
-        setMissionState(result.updatedState);
-        setLastFeedback({
-          isCorrect: result.isCorrect,
-          chosenOption: result.chosenOption,
-          explanation: result.explanation,
-          message: result.statusMessage
-        });
-        return result;
+        const contentType = response.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          const result = await response.json();
+          setMissionState(result.updatedState);
+          setLastFeedback({
+            isCorrect: result.isCorrect,
+            chosenOption: result.chosenOption,
+            explanation: result.explanation,
+            message: result.statusMessage
+          });
+          return result;
+        }
       }
     } catch (err) {
-      console.error("Decision evaluation failed:", err);
+      console.warn("Backend evaluation offline. Using client evaluation fallback.", err);
     }
+
+    // Client-side evaluation fallback
+    const sc = DEFAULT_SCENARIOS.find(s => s.id === scenarioId);
+    if (!sc) return null;
+    const isCorrect = sc.correctAnswer === chosenOptionId;
+    const effects = isCorrect ? sc.effectsOnSuccess : sc.effectsOnFailure;
+    
+    const updatedState = {
+      ...missionState,
+      oxygen: Math.max(0, Math.min(100, missionState.oxygen + (effects.oxygen || 0))),
+      power: Math.max(0, Math.min(100, missionState.power + (effects.power || 0))),
+      score: Math.max(0, missionState.score + (effects.score || 0)),
+      xp: missionState.xp + (effects.xp || 0),
+      emergenciesResolved: missionState.emergenciesResolved + (isCorrect ? 1 : 0),
+      emergenciesFailed: missionState.emergenciesFailed + (isCorrect ? 0 : 1),
+      badges: isCorrect && !missionState.badges.includes("Emergency Responder") 
+        ? [...missionState.badges, "Emergency Responder"] 
+        : missionState.badges
+    };
+    
+    setMissionState(updatedState);
+    const fallbackResult = {
+      isCorrect,
+      chosenOption: chosenOptionId,
+      explanation: sc.explanation,
+      statusMessage: effects.statusMessage,
+      effectsApplied: effects,
+      updatedState
+    };
+    setLastFeedback({
+      isCorrect,
+      chosenOption: chosenOptionId,
+      explanation: sc.explanation,
+      message: effects.statusMessage
+    });
+    return fallbackResult;
   };
 
   // Solve a Lunar Science Challenge
@@ -168,29 +208,61 @@ export function MissionProvider({ children }) {
         body: JSON.stringify({ challengeId, selectedAnswer })
       });
       if (response.ok) {
-        const res = await response.json();
-        setLunarSolved(prev => ({
-          ...prev,
-          [challengeId]: {
-            isCorrect: res.isCorrect,
-            explanation: res.explanation
-          }
-        }));
-        if (res.isCorrect) {
-          setMissionState(prev => ({
+        const contentType = response.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          const res = await response.json();
+          setLunarSolved(prev => ({
             ...prev,
-            xp: prev.xp + res.xpAwarded,
-            score: prev.score + 50,
-            badges: Object.keys(lunarSolved).length >= 3 && !prev.badges.includes("Lunar Explorer")
-              ? [...prev.badges, "Lunar Explorer"]
-              : prev.badges
+            [challengeId]: {
+              isCorrect: res.isCorrect,
+              explanation: res.explanation
+            }
           }));
+          if (res.isCorrect) {
+            setMissionState(prev => ({
+              ...prev,
+              xp: prev.xp + res.xpAwarded,
+              score: prev.score + 50,
+              badges: Object.keys(lunarSolved).length >= 3 && !prev.badges.includes("Lunar Explorer")
+                ? [...prev.badges, "Lunar Explorer"]
+                : prev.badges
+            }));
+          }
+          return res;
         }
-        return res;
       }
     } catch (err) {
-      console.error("Lunar evaluation failed:", err);
+      console.warn("Backend lunar evaluation offline. Using client evaluation fallback.", err);
     }
+
+    // Client-side fallback
+    const ch = DEFAULT_LUNAR_CHALLENGES.find(c => c.id === challengeId);
+    if (!ch) return null;
+    const isCorrect = ch.correctAnswer === selectedAnswer;
+    const fallbackRes = {
+      challengeId,
+      isCorrect,
+      explanation: ch.explanation,
+      xpAwarded: isCorrect ? ch.xpReward : 10
+    };
+    setLunarSolved(prev => ({
+      ...prev,
+      [challengeId]: {
+        isCorrect,
+        explanation: ch.explanation
+      }
+    }));
+    if (isCorrect) {
+      setMissionState(prev => ({
+        ...prev,
+        xp: prev.xp + 50,
+        score: prev.score + 50,
+        badges: Object.keys(lunarSolved).length >= 3 && !prev.badges.includes("Lunar Explorer")
+          ? [...prev.badges, "Lunar Explorer"]
+          : prev.badges
+      }));
+    }
+    return fallbackRes;
   };
 
   // Demo mode quick setup for hackathon judges

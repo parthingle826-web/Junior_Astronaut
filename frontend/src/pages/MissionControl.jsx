@@ -18,6 +18,9 @@ import {
   Moon
 } from 'lucide-react';
 
+import { DEFAULT_SCENARIOS } from '../data/missionsData';
+import { safeFetchJson } from '../utils/api';
+
 export default function MissionControl() {
   const { 
     missionState, 
@@ -27,25 +30,25 @@ export default function MissionControl() {
     navigateTo 
   } = useMission();
 
-  const [scenarios, setScenarios] = useState([]);
+  const [scenarios, setScenarios] = useState(DEFAULT_SCENARIOS);
   const [selectedScenarioForModal, setSelectedScenarioForModal] = useState(null);
   const [isAstraChatOpen, setIsAstraChatOpen] = useState(false);
   const [flightPhase, setFlightPhase] = useState('Trans-Lunar Coast');
 
-  // Fetch available emergency scenarios from backend
+  // Fetch available emergency scenarios with robust fallback
   useEffect(() => {
-    fetch('/api/missions/scenarios')
-      .then(res => res.json())
-      .then(data => {
-        setScenarios(data);
-        // If no emergency was triggered yet and emergenciesResolved == 0, trigger first scenario for immediate hackathon experience
-        if (!activeEmergency && missionState.emergenciesResolved === 0 && data.length > 0) {
-          // Trigger the solar radiation storm first
-          setSelectedScenarioForModal(data[0]);
-          setActiveEmergency(data[0]);
-        }
-      })
-      .catch(err => console.error("Error fetching scenarios:", err));
+    let isMounted = true;
+    safeFetchJson('/api/missions/scenarios', {}, DEFAULT_SCENARIOS).then(data => {
+      if (!isMounted) return;
+      const list = Array.isArray(data) && data.length > 0 ? data : DEFAULT_SCENARIOS;
+      setScenarios(list);
+      // Trigger the first scenario if no emergency has been resolved yet
+      if (!activeEmergency && missionState.emergenciesResolved === 0 && list.length > 0) {
+        setSelectedScenarioForModal(list[0]);
+        setActiveEmergency(list[0]);
+      }
+    });
+    return () => { isMounted = false; };
   }, []);
 
   const handleTriggerEmergency = (sc) => {
