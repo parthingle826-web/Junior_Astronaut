@@ -5,7 +5,8 @@ import {
   ShieldCheck, 
   CheckCircle2, 
   ArrowRight, 
-  Sparkles
+  Sparkles,
+  Bot
 } from 'lucide-react';
 import { safeFetchJson } from '../utils/api';
 

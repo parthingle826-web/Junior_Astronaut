@@ -25,43 +25,57 @@ export default function LaunchSequence() {
     checklist.sensorDiscrepancyResolved && 
     checklist.hatchSealed;
 
-  // Handle countdown and launch trajectory animation
+  // 1. Countdown timer
   useEffect(() => {
-    let interval = null;
-    if (isLaunching && countdown > 0) {
-      interval = setInterval(() => {
-        setCountdown(prev => prev - 1);
-      }, 1000);
-    } else if (isLaunching && countdown === 0) {
-      // Trigger Launch Sequence Stages
-      setLaunchStage('liftoff');
-      
-      const flightTimer = setInterval(() => {
-        setTelemetryAltitude(alt => {
-          if (alt >= 380) {
-            clearInterval(flightTimer);
-            setLaunchStage('orbit');
-            setMissionState(ms => ({
-              ...ms,
-              currentPhase: 'space_travel',
-              xp: ms.xp + 100,
-              score: ms.score + 50
-            }));
-            setTimeout(() => {
-              navigateTo('mission_control');
-            }, 2500);
-            return 380;
-          }
-          return alt + 18;
-        });
-
-        setTelemetryVelocity(vel => Math.min(10.8, Number((vel + 0.45).toFixed(2))));
-      }, 150);
-
-      return () => clearInterval(flightTimer);
-    }
+    if (!isLaunching || countdown <= 0) return;
+    const interval = setInterval(() => {
+      setCountdown(prev => prev - 1);
+    }, 1000);
     return () => clearInterval(interval);
   }, [isLaunching, countdown]);
+
+  // 2. Liftoff stage trigger when countdown reaches 0
+  useEffect(() => {
+    if (isLaunching && countdown === 0 && launchStage === 'pad') {
+      setLaunchStage('liftoff');
+    }
+  }, [isLaunching, countdown, launchStage]);
+
+  // 3. Flight altitude and velocity telemetry simulation
+  useEffect(() => {
+    if (launchStage !== 'liftoff') return;
+
+    const flightTimer = setInterval(() => {
+      setTelemetryAltitude(prevAlt => {
+        if (prevAlt >= 380) {
+          clearInterval(flightTimer);
+          return 380;
+        }
+        return prevAlt + 18;
+      });
+
+      setTelemetryVelocity(prevVel => Math.min(10.8, Number((prevVel + 0.45).toFixed(2))));
+    }, 150);
+
+    return () => clearInterval(flightTimer);
+  }, [launchStage]);
+
+  // 4. Orbit stage achieved and transfer to mission control
+  useEffect(() => {
+    if (launchStage === 'liftoff' && telemetryAltitude >= 380) {
+      setLaunchStage('orbit');
+      setMissionState(ms => ({
+        ...ms,
+        currentPhase: 'space_travel',
+        xp: ms.xp + 100,
+        score: ms.score + 50
+      }));
+      const navTimer = setTimeout(() => {
+        navigateTo('mission_control');
+      }, 2500);
+      return () => clearTimeout(navTimer);
+    }
+  }, [launchStage, telemetryAltitude, setMissionState, navigateTo]);
 
   const handleStartCountdown = () => {
     if (!allChecksReady) return;

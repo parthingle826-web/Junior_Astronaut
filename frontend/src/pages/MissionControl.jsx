@@ -8,7 +8,8 @@ import {
   Bot, 
   CheckCircle2, 
   ArrowRight, 
-  Moon
+  Moon,
+  Globe
 } from 'lucide-react';
 
 import { DEFAULT_SCENARIOS } from '../data/missionsData';
