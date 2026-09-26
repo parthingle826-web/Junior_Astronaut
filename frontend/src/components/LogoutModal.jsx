@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useMission } from '../context/MissionContext';
-import { AlertTriangle, LogOut, X, UserX } from 'lucide-react';
+import { AlertTriangle, LogOut, X } from 'lucide-react';
 
 export default function LogoutModal() {
   const { isLogoutModalOpen, cancelLogout, confirmLogout, astronaut } = useMission();
@@ -19,7 +19,10 @@ export default function LogoutModal() {
   if (!isLogoutModalOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
+    <div 
+      onClick={cancelLogout}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn"
+    >
       {/* Modal Dialog Card */}
       <div 
         className="w-full max-w-md rounded-2xl glass-panel border border-red-500/40 p-6 sm:p-8 shadow-2xl relative space-y-6 animate-scaleUp text-left"

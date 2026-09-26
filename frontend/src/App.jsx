@@ -3,6 +3,7 @@ import { MissionProvider, useMission } from './context/MissionContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AstraChat from './components/AstraChat';
+import LogoutModal from './components/LogoutModal';
 
 // Pages
 import LandingPage from './pages/LandingPage';
@@ -86,6 +87,9 @@ function AppContent() {
 
       {/* Global ASTRA AI Chat Drawer */}
       <AstraChat isOpen={isAstraOpen} onClose={() => setIsAstraOpen(false)} />
+
+      {/* Global Logout / Switch Astronaut Confirmation Modal */}
+      <LogoutModal />
     </div>
   );
 }
