@@ -68,10 +68,9 @@ export default function TelemetryHUD({ compact = false }) {
   return (
     <div className={`glass-panel rounded-xl border border-cyan-500/30 shadow-2xl p-4 ${compact ? 'py-3' : 'p-5'}`}>
       
-      {/* Top Header Row: MET + Composite Health + Risk */}
+     
       <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-800">
         
-        {/* MET Clock */}
         <div className="flex items-center gap-2">
           <Clock className="w-4 h-4 text-cyan-400" />
           <div className="font-mono text-xs text-slate-400">MISSION ELAPSED TIME:</div>
@@ -80,7 +79,7 @@ export default function TelemetryHUD({ compact = false }) {
           </span>
         </div>
 
-        {/* Center: Mission Health & Phase */}
+        
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <Activity className="w-4 h-4 text-emerald-400" />
@@ -96,14 +95,13 @@ export default function TelemetryHUD({ compact = false }) {
           </div>
         </div>
 
-        {/* Right: Risk Level */}
+        
         <div>{getRiskBadge()}</div>
       </div>
 
-      {/* Telemetry Gauge Grid */}
+     
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 mt-4">
-        
-        {/* Oxygen */}
+       
         <div className="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
           <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
             <span className="flex items-center gap-1"><Wind className="w-3 h-3 text-cyan-400" /> OXYGEN</span>
@@ -117,7 +115,7 @@ export default function TelemetryHUD({ compact = false }) {
           </div>
         </div>
 
-        {/* Power */}
+      
         <div className="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
           <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
             <span className="flex items-center gap-1"><BatteryCharging className="w-3 h-3 text-yellow-400" /> POWER</span>
@@ -131,7 +129,6 @@ export default function TelemetryHUD({ compact = false }) {
           </div>
         </div>
 
-        {/* Fuel */}
         <div className="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
           <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
             <span className="flex items-center gap-1"><Fuel className="w-3 h-3 text-emerald-400" /> FUEL</span>
@@ -144,8 +141,7 @@ export default function TelemetryHUD({ compact = false }) {
             />
           </div>
         </div>
-
-        {/* Cabin Pressure */}
+ 
         <div className="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
           <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
             <span className="flex items-center gap-1"><Gauge className="w-3 h-3 text-blue-400" /> PRESSURE</span>
@@ -159,7 +155,6 @@ export default function TelemetryHUD({ compact = false }) {
           </div>
         </div>
 
-        {/* Temperature */}
         <div className="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
           <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
             <span className="flex items-center gap-1"><Thermometer className="w-3 h-3 text-rose-400" /> TEMP</span>
@@ -172,8 +167,7 @@ export default function TelemetryHUD({ compact = false }) {
             />
           </div>
         </div>
-
-        {/* Communications */}
+        
         <div className="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
           <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
             <span className="flex items-center gap-1"><Radio className="w-3 h-3 text-purple-400" /> COMMS</span>
@@ -187,7 +181,7 @@ export default function TelemetryHUD({ compact = false }) {
           </div>
         </div>
 
-        {/* Navigation */}
+
         <div className="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 col-span-2 sm:col-span-1">
           <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
             <span className="flex items-center gap-1"><Compass className="w-3 h-3 text-teal-400" /> NAV LOCK</span>

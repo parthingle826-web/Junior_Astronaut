@@ -31,23 +31,20 @@ const INITIAL_TELEMETRY = {
 };
 
 export function MissionProvider({ children }) {
-  // Synchronous session rehydration and route protection
+
   const initialSession = resolveInitialSession();
 
-  // Navigation State
+ 
   const [currentView, setCurrentView] = useState(initialSession.initialView);
 
-  // Astronaut Profile
   const [astronaut, setAstronaut] = useState(initialSession.astronaut);
 
-  // Route guard notice message (e.g. when unauthenticated user is blocked/redirected)
   const [routeNotice, setRouteNotice] = useState(() => {
     return initialSession.blockedFrom 
       ? "Cadet enrollment required: Please register your profile to access mission sectors."
       : null;
   });
 
-  // Telemetry & Mission State
   const [missionState, setMissionState] = useState(() => {
     try {
       const saved = localStorage.getItem('jamt_mission_state');
@@ -61,7 +58,6 @@ export function MissionProvider({ children }) {
     return INITIAL_TELEMETRY;
   });
 
-  // Training Center Progress
   const [trainingScores, setTrainingScores] = useState(() => {
     try {
       const saved = localStorage.getItem('jamt_training');
@@ -71,7 +67,6 @@ export function MissionProvider({ children }) {
     }
   });
 
-  // Pre-Launch Checklist State
   const [checklist, setChecklist] = useState(() => {
     try {
       const saved = localStorage.getItem('jamt_checklist');
@@ -81,12 +76,11 @@ export function MissionProvider({ children }) {
       eclssNominal: true,
       fuelPressurized: true,
       avionicsLocked: true,
-      sensorDiscrepancyResolved: false, // The deliberate warning
+      sensorDiscrepancyResolved: false, 
       hatchSealed: true
     };
   });
 
-  // Lunar Exploration Challenges Solved
   const [lunarSolved, setLunarSolved] = useState(() => {
     try {
       const saved = localStorage.getItem('jamt_lunar_solved');
@@ -96,7 +90,6 @@ export function MissionProvider({ children }) {
     }
   });
 
-  // Emergency scenario states
   const [activeEmergency, setActiveEmergency] = useState(() => {
     try {
       const saved = localStorage.getItem('jamt_active_emergency');
@@ -107,10 +100,8 @@ export function MissionProvider({ children }) {
   });
   const [lastFeedback, setLastFeedback] = useState(null);
 
-  // Logout modal state
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
-  // Auto-dismiss route notice after 5 seconds
   useEffect(() => {
     if (!routeNotice) return;
     const timer = setTimeout(() => {
@@ -119,9 +110,7 @@ export function MissionProvider({ children }) {
     return () => clearTimeout(timer);
   }, [routeNotice]);
 
-  // Handle browser Back / Forward buttons and URL synchronization
   useEffect(() => {
-    // If initial boot requested URL redirection (e.g. redirected or resumed to lastRoute)
     if (initialSession.shouldRedirectUrl) {
       window.history.replaceState({ view: initialSession.initialView }, '', initialSession.redirectPath);
     }
@@ -132,7 +121,7 @@ export function MissionProvider({ children }) {
       const hasAstronaut = !!rawAstronaut;
 
       if (isProtectedRoute(urlView) && !hasAstronaut) {
-        // Route protection on browser history navigation
+       
         setCurrentView('landing');
         window.history.replaceState({ view: 'landing' }, '', '/');
         setRouteNotice("Access Restricted: Cadet enrollment required to enter mission operations.");
@@ -150,7 +139,6 @@ export function MissionProvider({ children }) {
     };
   }, []);
 
-  // Sync with LocalStorage
   useEffect(() => {
     if (astronaut) {
       const astronautWithRoute = {
@@ -177,11 +165,9 @@ export function MissionProvider({ children }) {
     }
   }, [astronaut, missionState, trainingScores, checklist, lunarSolved, currentView, activeEmergency]);
 
-  // Navigate to view with route protection and URL bar synchronization
   const navigateTo = (view, options = {}) => {
     const targetView = normalizeView(view) || 'landing';
 
-    // Route guard check: If view is protected and no astronaut profile exists
     if (isProtectedRoute(targetView) && !astronaut && !options.force) {
       const fallbackView = options.targetOnBlocked || 'landing';
       setCurrentView(fallbackView);
@@ -195,14 +181,12 @@ export function MissionProvider({ children }) {
     setCurrentView(targetView);
     const targetPath = getPathForView(targetView);
 
-    // Update browser URL bar
     if (options.replace) {
       window.history.replaceState({ view: targetView }, '', targetPath);
     } else if (window.location.pathname !== targetPath) {
       window.history.pushState({ view: targetView }, '', targetPath);
     }
 
-    // Persist last route immediately
     if (astronaut) {
       localStorage.setItem('jamt_last_route', targetView);
       localStorage.setItem('jamt_view', targetView);
@@ -211,7 +195,6 @@ export function MissionProvider({ children }) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Register Astronaut
   const registerAstronaut = (profile) => {
     const idNum = Math.floor(1000 + Math.random() * 9000);
     const newAstronaut = {
@@ -222,7 +205,6 @@ export function MissionProvider({ children }) {
       registeredAt: new Date().toISOString()
     };
 
-    // Save to localStorage immediately
     localStorage.setItem('jamt_astronaut', JSON.stringify(newAstronaut));
     localStorage.setItem('jamt_last_route', 'dashboard');
     localStorage.setItem('jamt_view', 'dashboard');
@@ -230,7 +212,6 @@ export function MissionProvider({ children }) {
     setAstronaut(newAstronaut);
     setRouteNotice(null);
 
-    // Award Welcome XP
     setMissionState(prev => ({
       ...prev,
       xp: prev.xp + 50,
@@ -240,11 +221,10 @@ export function MissionProvider({ children }) {
     navigateTo('dashboard', { force: true });
   };
 
-  // Complete a training module
   const completeTrainingModule = (moduleId, score) => {
     setTrainingScores(prev => {
       const updated = { ...prev, [moduleId]: score };
-      // Award XP
+     
       setMissionState(ms => ({
         ...ms,
         xp: ms.xp + 100,
@@ -257,13 +237,13 @@ export function MissionProvider({ children }) {
     });
   };
 
-  // Resolve pre-launch warning
+ 
   const resolvePreLaunchWarning = () => {
     setChecklist(prev => ({ ...prev, sensorDiscrepancyResolved: true }));
     setMissionState(prev => ({ ...prev, xp: prev.xp + 50, score: prev.score + 25 }));
   };
 
-  // Submit emergency decision
+ 
   const submitEmergencyDecision = async (scenarioId, chosenOptionId) => {
     try {
       const response = await fetch('/api/missions/evaluate', {
@@ -293,7 +273,7 @@ export function MissionProvider({ children }) {
       console.warn("Backend evaluation offline. Using client evaluation fallback.", err);
     }
 
-    // Client-side evaluation fallback
+ 
     const sc = DEFAULT_SCENARIOS.find(s => s.id === scenarioId);
     if (!sc) return null;
     const isCorrect = sc.correctAnswer === chosenOptionId;
@@ -330,7 +310,6 @@ export function MissionProvider({ children }) {
     return fallbackResult;
   };
 
-  // Solve a Lunar Science Challenge
   const solveLunarChallenge = async (challengeId, selectedAnswer) => {
     try {
       const response = await fetch('/api/missions/evaluate-lunar', {
@@ -366,7 +345,6 @@ export function MissionProvider({ children }) {
       console.warn("Backend lunar evaluation offline. Using client evaluation fallback.", err);
     }
 
-    // Client-side fallback
     const ch = DEFAULT_LUNAR_CHALLENGES.find(c => c.id === challengeId);
     if (!ch) return null;
     const isCorrect = ch.correctAnswer === selectedAnswer;
@@ -396,7 +374,6 @@ export function MissionProvider({ children }) {
     return fallbackRes;
   };
 
-  // Demo mode quick setup for hackathon judges
   const activateDemoMode = (targetView = 'mission_control') => {
     const demoProfile = {
       id: "AST-7709",
@@ -410,7 +387,6 @@ export function MissionProvider({ children }) {
       registeredAt: new Date().toISOString()
     };
     
-    // Save demo immediately to localStorage
     localStorage.setItem('jamt_astronaut', JSON.stringify(demoProfile));
     localStorage.setItem('jamt_last_route', targetView);
     localStorage.setItem('jamt_view', targetView);
@@ -440,7 +416,6 @@ export function MissionProvider({ children }) {
     navigateTo(targetView, { force: true });
   };
 
-  // Request, Cancel & Confirm Astronaut Logout (Switch Candidate Flow)
   const requestLogout = () => {
     setIsLogoutModalOpen(true);
   };
@@ -450,7 +425,7 @@ export function MissionProvider({ children }) {
   };
 
   const confirmLogout = (targetRedirect = 'landing') => {
-    // 1. Clear all localStorage items scoped to this astronaut & mission
+   
     localStorage.removeItem('jamt_astronaut');
     localStorage.removeItem('jamt_last_route');
     localStorage.removeItem('jamt_view');
@@ -460,7 +435,6 @@ export function MissionProvider({ children }) {
     localStorage.removeItem('jamt_lunar_solved');
     localStorage.removeItem('jamt_active_emergency');
 
-    // 2. Reset all in-memory React states back to defaults
     setAstronaut(null);
     setMissionState(INITIAL_TELEMETRY);
     setTrainingScores({});
@@ -477,16 +451,13 @@ export function MissionProvider({ children }) {
     setIsLogoutModalOpen(false);
     setRouteNotice(null);
 
-    // 3. Cleanly redirect next candidate & update URL to /
     navigateTo(targetRedirect, { replace: true, force: true });
   };
 
-  // Reset entire mission simulation (clears active candidate and restarts)
   const resetMission = () => {
     confirmLogout('landing');
   };
 
-  // Rank computation
   const getAstronautRank = () => {
     const totalXP = missionState.xp;
     if (totalXP >= 800) return "Mission Specialist";

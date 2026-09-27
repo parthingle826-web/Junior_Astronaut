@@ -1,9 +1,3 @@
-"""
-Authentic NASA Fallback Scientific Data
-Curated real NASA mission records from APOD, EPIC, LRO, DONKI, and NEO.
-Used as reliable fallbacks when external NASA APIs are rate-limited or offline.
-Every item is strictly tagged with its true NASA source and is_fallback: True.
-"""
 
 FALLBACK_APOD = {
     "title": "Earthrise from Artemis I Orion",

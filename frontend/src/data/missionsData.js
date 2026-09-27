@@ -1,7 +1,3 @@
-/**
- * Client-side mission scenario and lunar science data.
- * Used directly as fallback when backend API is starting up, rate-limited, or offline.
- */
 
 export const DEFAULT_SCENARIOS = [
   {

@@ -1,7 +1,4 @@
-"""
-Junior Astronaut Mission Trainer - FastAPI Backend Server
-NASA Space Apps Challenge MVP
-"""
+
 
 import os
 from fastapi import FastAPI
@@ -10,7 +7,7 @@ from dotenv import load_dotenv
 
 from .routes import nasa, missions, ai, leaderboard
 
-# Load environment configuration
+
 load_dotenv()
 
 app = FastAPI(
@@ -19,7 +16,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Enable CORS for local Vite frontend
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -28,7 +25,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount functional API routers
+
 app.include_router(missions.router)
 app.include_router(nasa.router)
 app.include_router(ai.router)

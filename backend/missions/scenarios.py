@@ -1,7 +1,4 @@
-"""
-Mission Scenario Engine Data Models & Scenario Library
-Contains real, physics-grounded spaceflight emergency scenarios.
-"""
+
 
 MISSION_SCENARIOS = {
     "solar-radiation": {

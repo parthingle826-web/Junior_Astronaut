@@ -53,7 +53,6 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
-          {/* Logo & Project Title */}
           <div 
             onClick={() => handleNavClick('landing')}
             className="flex items-center gap-3 cursor-pointer group"
@@ -71,8 +70,6 @@ export default function Navbar() {
               <p className="text-[11px] text-slate-400 hidden sm:block">NASA Space Apps Challenge</p>
             </div>
           </div>
-
-          {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-1">
             {navItems.filter(item => item.show !== false).map((item) => {
               const Icon = item.icon;
@@ -94,9 +91,8 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Right Action Area: Astronaut Pill + Hackathon Demo Mode */}
           <div className="hidden sm:flex items-center gap-3">
-            {/* Judge Demo Quick Launcher */}
+           
             <div className="relative">
               <button
                 onClick={() => setDemoDropdownOpen(!demoDropdownOpen)}
@@ -162,7 +158,6 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Astronaut Profile Pill & Logout Button */}
             {astronaut ? (
               <div className="flex items-center gap-2">
                 <div 
@@ -177,7 +172,7 @@ export default function Navbar() {
                   </div>
                 </div>
 
-                {/* Logout Button (Only visible when astronaut exists) */}
+                
                 <button
                   onClick={requestLogout}
                   title="Logout / Switch Astronaut (Clears saved session for next candidate)"
@@ -196,7 +191,7 @@ export default function Navbar() {
               </button>
             )}
 
-            {/* Reset Button */}
+            
             <button
               onClick={resetMission}
               title="Reset simulation to fresh start"
@@ -206,7 +201,7 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
+          
           <div className="flex md:hidden items-center gap-2">
             <button
               onClick={() => activateDemoMode('mission_control')}
@@ -225,7 +220,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+    
       {mobileMenuOpen && (
         <div className="md:hidden bg-space-950 border-b border-cyan-500/30 px-4 pt-2 pb-4 space-y-2">
           {astronaut && (

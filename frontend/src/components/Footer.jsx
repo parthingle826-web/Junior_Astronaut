@@ -10,7 +10,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
           
-          {/* Brand & Purpose */}
+        
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 rounded bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400">
@@ -31,7 +31,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* NASA Resources Integrated */}
+         
           <div>
             <h4 className="font-mono text-slate-300 font-bold uppercase tracking-wider mb-3 flex items-center gap-1.5 text-xs">
               <Cpu className="w-3.5 h-3.5 text-cyan-400" />
@@ -61,7 +61,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Quick Links & Global Goals */}
+        
           <div>
             <h4 className="font-mono text-slate-300 font-bold uppercase tracking-wider mb-3 flex items-center gap-1.5 text-xs">
               <Globe className="w-3.5 h-3.5 text-cyan-400" />
@@ -85,7 +85,7 @@ export default function Footer() {
 
         </div>
 
-        {/* Bottom Bar */}
+        
         <div className="pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-400 text-[11px]">
           <div>
             © 2026 Junior Astronaut Mission Trainer • NASA Space Apps Challenge Entry

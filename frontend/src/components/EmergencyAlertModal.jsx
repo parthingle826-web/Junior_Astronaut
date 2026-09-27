@@ -31,10 +31,10 @@ export default function EmergencyAlertModal({ scenario, onResolved, onDismiss })
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
       <div className="max-w-2xl w-full rounded-2xl glass-panel-danger border-2 border-red-500/70 p-6 shadow-2xl relative overflow-hidden">
         
-        {/* Animated warning scanline */}
+       
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent animate-pulse" />
 
-        {/* Header Alert Strip */}
+        
         <div className="flex items-center justify-between pb-4 border-b border-red-500/30 mb-4">
           <div className="flex items-center gap-2.5">
             <div className="w-10 h-10 rounded-xl bg-red-600/30 border border-red-500 flex items-center justify-center text-red-400 animate-bounce">
@@ -56,12 +56,10 @@ export default function EmergencyAlertModal({ scenario, onResolved, onDismiss })
           </div>
         </div>
 
-        {/* Problem Description */}
         <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-200 text-sm leading-relaxed mb-6">
           <p>{scenario.description}</p>
         </div>
 
-        {/* If decision result is available: show explanation & consequences */}
         {decisionResult ? (
           <div className="space-y-4 animate-fadeIn">
             <div className={`p-4 rounded-xl border flex items-start gap-3 ${
@@ -84,7 +82,6 @@ export default function EmergencyAlertModal({ scenario, onResolved, onDismiss })
               </div>
             </div>
 
-            {/* Scientific Explanation */}
             <div className="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-xs text-slate-300 space-y-2">
               <div className="font-bold text-cyan-400 flex items-center gap-1.5 font-mono">
                 <Bot className="w-4 h-4" />
@@ -93,7 +90,6 @@ export default function EmergencyAlertModal({ scenario, onResolved, onDismiss })
               <p className="leading-relaxed">{decisionResult.explanation}</p>
             </div>
 
-            {/* Effects Applied Delta */}
             <div className="flex flex-wrap gap-2 text-[11px] font-mono">
               <span className="px-2 py-1 rounded bg-slate-800 border border-slate-700 text-cyan-300">
                 Score: {decisionResult.effectsApplied.score > 0 ? `+${decisionResult.effectsApplied.score}` : decisionResult.effectsApplied.score}
@@ -117,7 +113,7 @@ export default function EmergencyAlertModal({ scenario, onResolved, onDismiss })
             </div>
           </div>
         ) : (
-          /* Decision Option Buttons */
+     
           <div className="space-y-3">
             <div className="text-xs font-mono text-slate-400 uppercase tracking-wider mb-2">
               Select Immediate Contingency Procedure:

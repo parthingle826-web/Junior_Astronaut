@@ -1,7 +1,3 @@
-/**
- * Client-side NASA authentic fallback datasets.
- * Pre-cached so users never see a broken screen or error if the backend is booting.
- */
 
 export const CLIENT_FALLBACK_EARTH = [
   {

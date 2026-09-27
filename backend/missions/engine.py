@@ -7,18 +7,18 @@ from typing import Dict, Any, List
 from .scenarios import MISSION_SCENARIOS
 
 DEFAULT_MISSION_STATE = {
-    "oxygen": 100,         # %
-    "power": 100,          # %
-    "fuel": 100,           # %
-    "temperature": 21.0,   # °C
-    "pressure": 101.3,     # kPa
-    "communication": 100,  # %
-    "navigation": 100,     # %
-    "missionHealth": 100,  # % (Composite health)
+    "oxygen": 100,       
+    "power": 100,       
+    "fuel": 100,          
+    "temperature": 21.0,  
+    "pressure": 101.3,    
+    "communication": 100, 
+    "navigation": 100,     
+    "missionHealth": 100, 
     "score": 0,
     "xp": 0,
-    "missionRisk": "LOW",  # LOW | MODERATE | HIGH
-    "currentPhase": "pre_launch", # pre_launch, launch, space_travel, moon_landing, lunar_exploration, complete
+    "missionRisk": "LOW",  
+    "currentPhase": "pre_launch", 
     "completedObjectives": [],
     "badges": [],
     "history": [],
@@ -66,7 +66,7 @@ class MissionEngine:
         new_state["communication"] = int(clamp(new_state.get("communication", 100) + effects.get("communication", 0), 0, 100))
         new_state["navigation"] = int(clamp(new_state.get("navigation", 100) + effects.get("navigation", 0), 0, 100))
         
-        # Calculate composite mission health
+       
         computed_health = (
             new_state["oxygen"] * 0.35 +
             new_state["power"] * 0.20 +
@@ -76,17 +76,17 @@ class MissionEngine:
         )
         new_state["missionHealth"] = int(clamp(computed_health, 0, 100))
 
-        # Score & XP
+      
         new_state["score"] = max(0, new_state.get("score", 0) + effects.get("score", 0))
         new_state["xp"] = max(0, new_state.get("xp", 0) + effects.get("xp", 0))
 
-        # Update emergency counters
+     
         if is_correct:
             new_state["emergenciesResolved"] = new_state.get("emergenciesResolved", 0) + 1
         else:
             new_state["emergenciesFailed"] = new_state.get("emergenciesFailed", 0) + 1
 
-        # Calculate dynamic mission risk
+      
         risk_score = 0
         if new_state["missionHealth"] < 50:
             risk_score += 3
@@ -107,7 +107,7 @@ class MissionEngine:
         else:
             new_state["missionRisk"] = "LOW"
 
-        # Check badges
+       
         badges = list(new_state.get("badges", []))
         if new_state["emergenciesResolved"] >= 1 and "Emergency Responder" not in badges:
             badges.append("Emergency Responder")
@@ -116,7 +116,7 @@ class MissionEngine:
 
         new_state["badges"] = badges
 
-        # Log history item
+
         history_item = {
             "scenarioId": scenario_id,
             "scenarioTitle": scenario["title"],
