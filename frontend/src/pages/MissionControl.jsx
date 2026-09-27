@@ -34,14 +34,14 @@ export default function MissionControl() {
     }
   }, [activeEmergency]);
 
-  // Fetch available emergency scenarios with robust fallback
+
   useEffect(() => {
     let isMounted = true;
     safeFetchJson('/api/missions/scenarios', {}, DEFAULT_SCENARIOS).then(data => {
       if (!isMounted) return;
       const list = Array.isArray(data) && data.length > 0 ? data : DEFAULT_SCENARIOS;
       setScenarios(list);
-      // Trigger the first scenario if no emergency has been resolved yet
+      
       if (!activeEmergency && missionState.emergenciesResolved === 0 && list.length > 0) {
         setSelectedScenarioForModal(list[0]);
         setActiveEmergency(list[0]);
@@ -67,16 +67,16 @@ export default function MissionControl() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       
-      {/* Telemetry HUD Top Strip */}
+      
       <TelemetryHUD />
 
-      {/* Main Grid: Flight Deck & Emergency Operations */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        {/* Left 2 Cols: Flight Path & Emergency Terminal */}
+        
         <div className="lg:col-span-2 space-y-6">
           
-          {/* Cislunar Flight Path Radar */}
+          
           <div className="glass-panel rounded-2xl border border-cyan-500/30 p-5 shadow-2xl relative overflow-hidden">
             <div className="flex items-center justify-between pb-3 border-b border-slate-800 text-xs font-mono">
               <div className="flex items-center gap-2 text-cyan-400">
@@ -86,11 +86,11 @@ export default function MissionControl() {
               <span className="text-slate-400">PROPULSION: ESM CO-ORBIT</span>
             </div>
 
-            {/* Trajectory Graphic */}
+            
             <div className="relative h-44 my-4 rounded-xl bg-space-950/80 border border-slate-800/80 flex items-center justify-between px-8 overflow-hidden">
               <div className="absolute inset-0 stars-bg opacity-50" />
               
-              {/* Earth */}
+              
               <div className="relative flex flex-col items-center z-10">
                 <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-blue-600 via-teal-400 to-blue-300 shadow-lg shadow-blue-500/30 flex items-center justify-center border border-blue-400">
                   <Globe className="w-8 h-8 text-slate-950/70" />
@@ -99,10 +99,10 @@ export default function MissionControl() {
                 <span className="text-[9px] font-mono text-slate-500">T+04:12</span>
               </div>
 
-              {/* Trajectory Arc & Spacecraft */}
+             
               <div className="flex-1 relative flex items-center justify-center px-4">
                 <div className="w-full h-0.5 border-t-2 border-dashed border-cyan-500/40 relative">
-                  {/* Spacecraft icon moving along trajectory */}
+                  
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
                     <div className="w-8 h-8 rounded-full bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-300 shadow-md shadow-cyan-500/30 animate-pulse">
                       <span className="text-sm">🚀</span>
@@ -114,7 +114,7 @@ export default function MissionControl() {
                 </div>
               </div>
 
-              {/* Moon */}
+             
               <div className="relative flex flex-col items-center z-10">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-slate-400 to-slate-200 shadow-lg shadow-slate-300/20 flex items-center justify-center border border-slate-300">
                   <Moon className="w-7 h-7 text-slate-900/80" />
@@ -134,7 +134,7 @@ export default function MissionControl() {
             </div>
           </div>
 
-          {/* Dynamic Emergency Contingencies Deck */}
+        
           <div className="glass-panel rounded-2xl border border-cyan-500/30 p-5 shadow-2xl space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-800">
               <div>
@@ -151,7 +151,6 @@ export default function MissionControl() {
               </span>
             </div>
 
-            {/* List of 3+ Scenarios */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {scenarios.map((sc) => {
                 const isResolved = missionState.history.some(h => h.scenarioId === sc.id && h.isCorrect);
@@ -204,7 +203,6 @@ export default function MissionControl() {
               })}
             </div>
 
-            {/* Advance to Moon Landing Button */}
             <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="text-xs font-mono text-slate-400">
                 {canLandOnMoon 
@@ -226,10 +224,8 @@ export default function MissionControl() {
 
         </div>
 
-        {/* Right Col: ASTRA AI Telemetry Comms & Incident Log */}
         <div className="space-y-6">
           
-          {/* ASTRA AI Direct Communicator Card */}
           <div className="glass-panel rounded-2xl border border-cyan-500/30 p-5 shadow-2xl space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-800">
               <div className="flex items-center gap-2">
@@ -275,7 +271,6 @@ export default function MissionControl() {
             </div>
           </div>
 
-          {/* Flight Incident Log Feed */}
           <div className="glass-panel rounded-2xl border border-slate-800 p-5 shadow-2xl space-y-3">
             <h3 className="text-xs font-mono text-cyan-400 uppercase tracking-widest font-bold">
               FLIGHT TELEMETRY LOG
@@ -323,7 +318,6 @@ export default function MissionControl() {
         />
       )}
 
-      {/* Floating ASTRA AI Assistant Drawer */}
       <AstraChat
         isOpen={isAstraChatOpen}
         onClose={() => setIsAstraChatOpen(false)}

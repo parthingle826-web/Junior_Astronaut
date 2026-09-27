@@ -44,7 +44,6 @@ export default function LunarExploration() {
     await solveLunarChallenge(challengeId, selected);
   };
 
-  // Map coordinates representing 6 exploration sites near Lunar South Pole
   const siteCoordinates = [
     { id: 'crater-id', name: 'Shackleton Rim Alpha', coords: '89.9°S, 0.0°E', x: '50%', y: '48%', challengeIndex: 0 },
     { id: 'site-safety', name: 'Malapert Mountain Plateau', coords: '84.9°S, 12.9°E', x: '35%', y: '30%', challengeIndex: 1 },
@@ -57,7 +56,6 @@ export default function LunarExploration() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-800">
         <div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950 border border-cyan-500/30 text-cyan-400 font-mono text-xs uppercase mb-2">
@@ -72,7 +70,6 @@ export default function LunarExploration() {
           </p>
         </div>
 
-        {/* Score & Progress Badge */}
         <div className="text-right">
           <div className="text-xs font-mono text-slate-400 mb-1">SCIENCE TASKS COMPLETED</div>
           <div className="text-2xl font-bold font-mono text-cyan-400">
@@ -87,10 +84,8 @@ export default function LunarExploration() {
         </div>
       </div>
 
-      {/* Main Grid: Interactive Map + Active Science Challenge */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        {/* Left Column: Interactive Lunar South Pole Map (5 cols) */}
         <div className="lg:col-span-5 glass-panel rounded-2xl border border-cyan-500/30 p-5 shadow-2xl flex flex-col justify-between space-y-4">
           <div>
             <div className="flex items-center justify-between pb-3 border-b border-slate-800 text-xs font-mono">
@@ -101,10 +96,8 @@ export default function LunarExploration() {
               <span className="text-slate-500">89.9°S Lat Datum</span>
             </div>
 
-            {/* Simulated Lunar Crater Radar Map */}
             <div className="relative h-72 w-full my-4 rounded-xl bg-space-950 border border-slate-800 overflow-hidden flex items-center justify-center">
               
-              {/* Radar Grid Circles */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="w-60 h-60 rounded-full border border-cyan-500/10" />
                 <div className="w-40 h-40 rounded-full border border-cyan-500/20" />
@@ -113,7 +106,6 @@ export default function LunarExploration() {
                 <div className="absolute inset-y-0 w-[1px] bg-cyan-500/10" />
               </div>
 
-              {/* Site Pins */}
               {siteCoordinates.map((site, i) => {
                 const isSolved = !!lunarSolved[site.id];
                 const isCurrent = activeChallengeId === site.id;
@@ -144,7 +136,6 @@ export default function LunarExploration() {
             </div>
           </div>
 
-          {/* List of 6 Sites */}
           <div className="space-y-1.5 text-xs font-mono">
             {siteCoordinates.map((site, idx) => {
               const isSolved = !!lunarSolved[site.id];
@@ -179,13 +170,11 @@ export default function LunarExploration() {
 
         </div>
 
-        {/* Right Column: Active Science Challenge (7 cols) */}
         {activeChallenge && (
           <div className="lg:col-span-7 glass-panel rounded-2xl border border-cyan-500/30 p-6 sm:p-8 shadow-2xl space-y-6 flex flex-col justify-between">
             
             <div className="space-y-4">
               
-              {/* Challenge Header */}
               <div className="pb-3 border-b border-slate-800 flex items-center justify-between">
                 <div>
                   <span className="text-xs font-mono text-cyan-400 uppercase">Science Challenge</span>
@@ -198,12 +187,10 @@ export default function LunarExploration() {
                 )}
               </div>
 
-              {/* Challenge Scientific Briefing */}
               <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-200 text-sm leading-relaxed">
                 <p>{activeChallenge.description}</p>
               </div>
 
-              {/* Multiple Choice Options */}
               <div className="space-y-2.5">
                 <div className="text-xs font-mono text-slate-400 uppercase tracking-wider">
                   Select Scientific Assessment:
@@ -236,7 +223,6 @@ export default function LunarExploration() {
                 })}
               </div>
 
-              {/* Submit Button */}
               {!lunarSolved[activeChallenge.id] && (
                 <div className="pt-2">
                   <button
@@ -249,7 +235,6 @@ export default function LunarExploration() {
                 </div>
               )}
 
-              {/* Explanation Debrief */}
               {lunarSolved[activeChallenge.id] && (
                 <div className="p-4 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-slate-200 space-y-1.5 animate-fadeIn">
                   <div className="font-bold text-cyan-400 font-mono uppercase flex items-center gap-1.5">
@@ -264,7 +249,6 @@ export default function LunarExploration() {
 
             </div>
 
-            {/* Bottom Controls & Navigation to NASA Data Explorer */}
             <div className="pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
               <span className="text-xs font-mono text-slate-400">
                 {completedCount >= 3 

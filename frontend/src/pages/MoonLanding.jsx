@@ -10,20 +10,18 @@ import {
 export default function MoonLanding() {
   const { navigateTo, setMissionState } = useMission();
 
-  const [altitude, setAltitude] = useState(1800); // meters
-  const [velocity, setVelocity] = useState(24.0); // m/s descent
-  const [fuel, setFuel] = useState(85); // %
-  const [thrustLevel, setThrustLevel] = useState(0); // 0 to 100%
-  const [landingStatus, setLandingStatus] = useState('descent'); // descent, touched_down, crashed
+  const [altitude, setAltitude] = useState(1800); 
+  const [velocity, setVelocity] = useState(24.0); 
+  const [fuel, setFuel] = useState(85); 
+  const [thrustLevel, setThrustLevel] = useState(0); 
+  const [landingStatus, setLandingStatus] = useState('descent'); 
   const [radarPing, setRadarPing] = useState(true);
 
-  // Dynamic physics simulation loop
   useEffect(() => {
     if (landingStatus !== 'descent') return;
 
     const interval = setInterval(() => {
-      // Lunar gravity ~ 1.62 m/s^2 downwards
-      // Thrust pushes upwards
+      
       setThrustLevel(t => {
         setVelocity(v => {
           const upwardAccel = (t / 100) * 4.8;
@@ -82,7 +80,7 @@ export default function MoonLanding() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       
-      {/* Header */}
+  
       <div className="text-center max-w-3xl mx-auto space-y-2">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950 border border-cyan-500/30 text-cyan-400 font-mono text-xs uppercase tracking-wider">
           <Moon className="w-3.5 h-3.5" />
@@ -96,13 +94,13 @@ export default function MoonLanding() {
         </p>
       </div>
 
-      {/* Main Lander HUD Simulator */}
+  
       <div className="glass-panel rounded-2xl border border-cyan-500/30 p-6 sm:p-8 shadow-2xl space-y-6">
         
-        {/* Radar & Visual Altimeter Box */}
+        
         <div className="relative h-72 w-full rounded-xl bg-space-950 border border-slate-800 flex flex-col justify-between p-4 overflow-hidden">
           
-          {/* Top radar telemetry line */}
+         
           <div className="flex justify-between items-center text-xs font-mono text-cyan-400 z-10">
             <span className="flex items-center gap-2">
               <span className={`w-2 h-2 rounded-full ${radarPing ? 'bg-cyan-400' : 'bg-cyan-900'} transition-colors`} />
@@ -111,28 +109,28 @@ export default function MoonLanding() {
             <span>TARGET SLOPE: 3.2° (NOMINAL)</span>
           </div>
 
-          {/* Lander graphic position based on altitude */}
+          
           <div className="relative flex-1 flex items-center justify-center">
             
-            {/* Visual Lander */}
+         
             <div 
               className="absolute transition-all duration-300 flex flex-col items-center z-10"
               style={{
                 bottom: `${Math.min(200, (altitude / 1800) * 190)}px`,
               }}
             >
-              {/* Lunar Module Capsule */}
+              
               <div className="w-12 h-10 rounded-t-lg bg-slate-200 border-2 border-slate-400 flex items-center justify-center shadow-lg">
                 <div className="w-3 h-3 rounded-full bg-cyan-500/80 border border-cyan-300" />
               </div>
-              {/* Descent Stage (Gold Foil) */}
+            
               <div className="w-16 h-8 bg-gradient-to-r from-amber-600 via-amber-400 to-amber-700 rounded-b-md relative flex items-center justify-center border border-amber-300">
-                {/* Landing legs */}
+                
                 <div className="absolute -bottom-2 -left-2 w-3 h-5 border-l-2 border-slate-300 -rotate-45" />
                 <div className="absolute -bottom-2 -right-2 w-3 h-5 border-r-2 border-slate-300 rotate-45" />
               </div>
 
-              {/* Rocket Thruster Flame */}
+        
               {thrustLevel > 0 && landingStatus === 'descent' && (
                 <div className="flex flex-col items-center animate-pulse">
                   <div 
@@ -143,7 +141,7 @@ export default function MoonLanding() {
               )}
             </div>
 
-            {/* Moon Surface Line */}
+           
             <div className="absolute bottom-0 inset-x-0 h-10 bg-gradient-to-t from-slate-700 to-slate-600 border-t-2 border-slate-400 flex items-center justify-center">
               <span className="text-[10px] font-mono text-slate-300 uppercase tracking-widest">
                 LUNAR SOUTH POLE REGOLITH SURFACE
@@ -152,7 +150,7 @@ export default function MoonLanding() {
 
           </div>
 
-          {/* Bottom Landing Status Result Overlay */}
+         
           {landingStatus !== 'descent' && (
             <div className="absolute inset-0 bg-black/85 backdrop-blur-sm z-30 flex flex-col items-center justify-center p-6 text-center space-y-4 animate-fadeIn">
               {landingStatus === 'touched_down' ? (
@@ -198,7 +196,7 @@ export default function MoonLanding() {
 
         </div>
 
-        {/* Telemetry Numbers Strip */}
+       
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 font-mono">
           
           <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
@@ -231,7 +229,7 @@ export default function MoonLanding() {
 
         </div>
 
-        {/* Retrorocket Throttle Buttons */}
+       
         {landingStatus === 'descent' && (
           <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
             <div className="flex items-center justify-between text-xs font-mono text-slate-300">

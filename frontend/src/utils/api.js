@@ -1,7 +1,3 @@
-/**
- * Safe fetch utility with content-type verification and fallback handling.
- * Prevents "Unexpected token 'T', 'The page cannot be found' is not valid JSON" crashes.
- */
 
 export async function safeFetchJson(url, options = {}, fallback = null) {
   try {

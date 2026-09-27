@@ -36,8 +36,7 @@ export default function AstronautDashboard() {
   const completedTrainingCount = Object.keys(trainingScores).length;
   const completedLunarCount = Object.keys(lunarSolved).length;
 
-  // Calculate mission progress percentage
-  // 4 training modules (25%), Launch Checklist (15%), Emergencies handled (30%), Lunar Science (30%)
+
   const trainingPct = (completedTrainingCount / 4) * 25;
   const checklistPct = missionState.currentPhase !== 'pre_launch' ? 15 : 0;
   const emergenciesPct = Math.min(30, (missionState.emergenciesResolved / 3) * 30);
@@ -55,7 +54,7 @@ export default function AstronautDashboard() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       
-      {/* Top Welcome Banner */}
+    
       <div className="p-6 sm:p-8 rounded-2xl glass-panel border border-cyan-500/30 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-2xl">
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-2xl bg-cyan-500/20 border-2 border-cyan-400 flex items-center justify-center text-3xl shadow-lg shadow-cyan-500/20">
@@ -77,7 +76,7 @@ export default function AstronautDashboard() {
           </div>
         </div>
 
-        {/* Actions: Quick Launch & Switch Candidate */}
+        
         <div className="flex flex-col sm:flex-row items-center gap-3">
           <button
             onClick={requestLogout}
@@ -115,7 +114,7 @@ export default function AstronautDashboard() {
         </div>
       </div>
 
-      {/* Stats Readout Row */}
+    
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
           <div className="text-[11px] font-mono text-slate-400 mb-1">TOTAL EXPERIENCE</div>
@@ -144,12 +143,11 @@ export default function AstronautDashboard() {
         </div>
       </div>
 
-      {/* Main Flow Roadmap Cards */}
+     
       <div>
         <h2 className="text-xs font-mono text-cyan-400 uppercase tracking-widest mb-4">MISSION ROADMAP & PHASES</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           
-          {/* 1. Training Center */}
           <div 
             onClick={() => navigateTo('training')}
             className="p-5 rounded-xl glass-panel border border-slate-800 hover:border-cyan-500/40 cursor-pointer transition group"
@@ -174,7 +172,7 @@ export default function AstronautDashboard() {
             </div>
           </div>
 
-          {/* 2. Launch & Space Travel */}
+         
           <div 
             onClick={() => navigateTo('launch')}
             className="p-5 rounded-xl glass-panel border border-slate-800 hover:border-cyan-500/40 cursor-pointer transition group"
@@ -197,7 +195,6 @@ export default function AstronautDashboard() {
             </div>
           </div>
 
-          {/* 3. Lunar Exploration & Science */}
           <div 
             onClick={() => navigateTo('lunar_exploration')}
             className="p-5 rounded-xl glass-panel border border-slate-800 hover:border-cyan-500/40 cursor-pointer transition group"
@@ -225,7 +222,7 @@ export default function AstronautDashboard() {
         </div>
       </div>
 
-      {/* Badges Shelf */}
+    
       <div>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xs font-mono text-cyan-400 uppercase tracking-widest">ACHIEVEMENT HONORS & BADGES</h2>

@@ -22,30 +22,24 @@ export default function LandingPage() {
   return (
     <div className="relative overflow-hidden">
       
-      {/* Background ambient cosmic glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/10 blur-[140px] pointer-events-none rounded-full" />
       <div className="absolute top-3/4 right-10 w-[400px] h-[400px] bg-purple-600/10 blur-[130px] pointer-events-none rounded-full" />
 
-      {/* Hero Section */}
       <section className="relative pt-12 pb-20 md:pt-20 md:pb-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         
-        {/* Hackathon Badge */}
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-950/70 border border-cyan-500/30 text-cyan-300 text-xs font-mono mb-6 shadow-sm shadow-cyan-500/10">
           <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
           <span>NASA Space Apps Challenge • Junior Astronaut Mission Trainer</span>
         </div>
 
-        {/* Main Title */}
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-extrabold tracking-tight text-white mb-6 uppercase">
           Train. Decide. <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500">Explore.</span>
         </h1>
 
-        {/* Tagline */}
         <p className="max-w-3xl mx-auto text-base sm:text-xl text-slate-300 font-normal leading-relaxed mb-8">
           Step into the flight deck of an Artemis-class lunar mission. Experience real physics, manage critical spaceflight emergencies, analyze authentic NASA telemetry, and earn your Junior Astronaut Achievement Certificate.
         </p>
 
-        {/* Call to Actions */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
           <button
             onClick={() => navigateTo(astronaut ? 'dashboard' : 'register')}
@@ -64,8 +58,6 @@ export default function LandingPage() {
             <span>Explore NASA Data</span>
           </button>
         </div>
-
-        {/* Hackathon Judge Quick Jump Bar */}
         <div className="max-w-2xl mx-auto p-3.5 rounded-xl bg-slate-900/90 border border-amber-500/40 text-amber-300 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shadow-lg">
           <div className="flex items-center gap-2">
             <span className="text-base">⏱️</span>
@@ -82,7 +74,6 @@ export default function LandingPage() {
           </button>
         </div>
 
-        {/* HUD Mockup Showcase */}
         <div className="mt-14 max-w-5xl mx-auto rounded-2xl glass-panel border border-cyan-500/30 p-2 sm:p-4 shadow-2xl relative">
           <div className="absolute -top-3 left-6 px-3 py-0.5 rounded bg-cyan-950 border border-cyan-500/50 text-cyan-400 font-mono text-[10px] uppercase">
             LIVE FLIGHT TELEMETRY SIMULATION
@@ -124,7 +115,6 @@ export default function LandingPage() {
 
       </section>
 
-      {/* How It Works Section (4 Steps: Train / Prepare / Decide / Explore) */}
       <section className="py-16 bg-slate-950/60 border-y border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
@@ -135,7 +125,6 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             
-            {/* Step 1: Train */}
             <div className="p-6 rounded-xl glass-panel border border-slate-800 hover:border-cyan-500/40 transition group">
               <div className="w-12 h-12 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-4 group-hover:scale-110 transition">
                 <span className="font-mono font-bold text-lg">01</span>
@@ -146,7 +135,6 @@ export default function LandingPage() {
               </p>
             </div>
 
-            {/* Step 2: Prepare */}
             <div className="p-6 rounded-xl glass-panel border border-slate-800 hover:border-cyan-500/40 transition group">
               <div className="w-12 h-12 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 mb-4 group-hover:scale-110 transition">
                 <span className="font-mono font-bold text-lg">02</span>
@@ -157,7 +145,6 @@ export default function LandingPage() {
               </p>
             </div>
 
-            {/* Step 3: Decide */}
             <div className="p-6 rounded-xl glass-panel border border-slate-800 hover:border-cyan-500/40 transition group">
               <div className="w-12 h-12 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-4 group-hover:scale-110 transition">
                 <span className="font-mono font-bold text-lg">03</span>
@@ -168,7 +155,6 @@ export default function LandingPage() {
               </p>
             </div>
 
-            {/* Step 4: Explore */}
             <div className="p-6 rounded-xl glass-panel border border-slate-800 hover:border-cyan-500/40 transition group">
               <div className="w-12 h-12 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 mb-4 group-hover:scale-110 transition">
                 <span className="font-mono font-bold text-lg">04</span>
@@ -183,7 +169,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Mission Choice Preview Section */}
       <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-10">
           <h2 className="text-xs font-mono text-cyan-400 uppercase tracking-widest mb-2">EXPEDITION ASSIGNMENTS</h2>
@@ -192,7 +177,6 @@ export default function LandingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           
-          {/* Active Mission: Lunar Research */}
           <div className="p-6 rounded-2xl glass-panel border-2 border-cyan-500/40 relative overflow-hidden flex flex-col justify-between">
             <div className="absolute top-4 right-4 px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono font-bold">
               ACTIVE MVP MISSION
@@ -233,7 +217,6 @@ export default function LandingPage() {
             </button>
           </div>
 
-          {/* Mars Exploration: Clearly Labeled Coming Soon Stub */}
           <div className="p-6 rounded-2xl glass-panel border border-slate-800 relative opacity-75 flex flex-col justify-between">
             <div className="absolute top-4 right-4 px-2.5 py-1 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[10px] font-mono font-bold">
               COMING SOON • PROTOTYPE

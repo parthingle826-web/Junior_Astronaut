@@ -24,7 +24,7 @@ export default function TrainingCenter() {
   const isAllComplete = completedCount === TRAINING_MODULES.length;
 
   const handleSelectOption = (moduleId, optionId) => {
-    if (submittedQuiz[moduleId]) return; // locked after submit
+    if (submittedQuiz[moduleId]) return; 
     setSelectedAnswers(prev => ({ ...prev, [moduleId]: optionId }));
   };
 
@@ -66,7 +66,7 @@ export default function TrainingCenter() {
           </p>
         </div>
 
-        {/* Completion Progress Gauge */}
+       
         <div className="text-right">
           <div className="text-xs font-mono text-slate-400 mb-1">CURRICULUM MASTERY</div>
           <div className="text-2xl font-bold font-mono text-cyan-400">
@@ -81,7 +81,7 @@ export default function TrainingCenter() {
         </div>
       </div>
 
-      {/* Module Selector Tabs */}
+      
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {TRAINING_MODULES.map((module, idx) => {
           const isDone = !!trainingScores[module.id];
@@ -110,10 +110,10 @@ export default function TrainingCenter() {
         })}
       </div>
 
-      {/* Active Module Content */}
+    
       <div className="glass-panel rounded-2xl border border-cyan-500/30 p-6 sm:p-8 shadow-2xl space-y-8">
         
-        {/* Module Title & Overview */}
+       
         <div className="pb-4 border-b border-slate-800">
           <div className="flex items-center justify-between mb-1">
             <span className="text-xs font-mono text-cyan-400 uppercase">Training Track • {activeModule.badge}</span>
@@ -127,7 +127,7 @@ export default function TrainingCenter() {
           <p className="text-xs sm:text-sm text-slate-300 mt-1">{activeModule.description}</p>
         </div>
 
-        {/* Lesson Sections */}
+       
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {activeModule.lessons.map((lesson, lIdx) => (
             <div key={lIdx} className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
@@ -144,7 +144,7 @@ export default function TrainingCenter() {
           ))}
         </div>
 
-        {/* Interactive Knowledge Validation Quiz */}
+       
         <div className="p-6 rounded-xl bg-space-950/90 border border-cyan-500/20 space-y-4">
           <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 uppercase font-bold">
             <HelpCircle className="w-4 h-4" />
@@ -155,7 +155,7 @@ export default function TrainingCenter() {
             {activeModule.quiz.question}
           </div>
 
-          {/* Quiz Options */}
+        
           <div className="space-y-2.5">
             {activeModule.quiz.options.map((option) => {
               const isSelected = selectedAnswers[activeModule.id] === option.id;
@@ -197,7 +197,6 @@ export default function TrainingCenter() {
             })}
           </div>
 
-          {/* Submit Quiz Button */}
           {!submittedQuiz[activeModule.id] && !trainingScores[activeModule.id] && (
             <div className="pt-2">
               <button
@@ -210,7 +209,6 @@ export default function TrainingCenter() {
             </div>
           )}
 
-          {/* Explanation Banner (Shows WHY an answer is right or wrong!) */}
           {(submittedQuiz[activeModule.id] || trainingScores[activeModule.id]) && (
             <div className="p-4 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-slate-200 space-y-1.5 animate-fadeIn">
               <div className="font-bold text-cyan-400 font-mono uppercase flex items-center gap-1.5">
@@ -225,7 +223,6 @@ export default function TrainingCenter() {
 
         </div>
 
-        {/* Bottom Navigation Buttons */}
         <div className="flex items-center justify-between pt-4 border-t border-slate-800">
           <button
             disabled={activeModuleIndex === 0}

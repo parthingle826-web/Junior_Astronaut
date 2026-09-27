@@ -148,7 +148,6 @@ export default function CertificateView() {
 
         </div>
 
-        {/* Prominent Mandatory Non-Negotiable Disclaimer */}
         <div className="pt-4 border-t border-slate-800 text-[10px] font-mono text-slate-400 max-w-xl mx-auto leading-relaxed">
           <strong className="text-amber-400 uppercase">Educational Certification Notice:</strong> This is a project-generated achievement certificate for an educational simulation created for the NASA Space Apps Challenge — not an official NASA certification.
         </div>

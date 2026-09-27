@@ -79,7 +79,7 @@ export default function MissionReport() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 space-y-8 animate-fadeIn">
       
-      {/* Top Banner */}
+      
       <div className="text-center space-y-2">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950 border border-cyan-500/30 text-cyan-400 font-mono text-xs uppercase">
           <Award className="w-3.5 h-3.5" />
@@ -93,10 +93,9 @@ export default function MissionReport() {
         </p>
       </div>
 
-      {/* Main Dossier Card */}
+      
       <div className="glass-panel rounded-2xl border border-cyan-500/40 p-6 sm:p-8 shadow-2xl space-y-8 relative">
         
-        {/* Cadet Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-800">
           <div className="flex items-center gap-3.5">
             <div className="w-14 h-14 rounded-xl bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-3xl">
@@ -121,14 +120,14 @@ export default function MissionReport() {
           </div>
         </div>
 
-        {/* 4 Performance Sub-Scores */}
+        
         <div>
           <h3 className="text-xs font-mono text-cyan-400 uppercase tracking-widest mb-4">
             FLIGHT COMPETENCY BREAKDOWN
           </h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             
-            {/* Science */}
+          
             <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
               <span className="text-[10px] font-mono text-slate-400 block mb-1">SCIENCE SCORE</span>
               <div className="text-2xl font-bold font-mono text-cyan-300">{report?.scores.science}%</div>
@@ -137,7 +136,7 @@ export default function MissionReport() {
               </div>
             </div>
 
-            {/* Safety */}
+           
             <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
               <span className="text-[10px] font-mono text-slate-400 block mb-1">SAFETY & ECLSS</span>
               <div className="text-2xl font-bold font-mono text-emerald-400">{report?.scores.safety}%</div>
@@ -146,7 +145,7 @@ export default function MissionReport() {
               </div>
             </div>
 
-            {/* Decisions */}
+           
             <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
               <span className="text-[10px] font-mono text-slate-400 block mb-1">DECISION TRIAGE</span>
               <div className="text-2xl font-bold font-mono text-purple-400">{report?.scores.decision}%</div>
@@ -155,7 +154,7 @@ export default function MissionReport() {
               </div>
             </div>
 
-            {/* Exploration */}
+           
             <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
               <span className="text-[10px] font-mono text-slate-400 block mb-1">SURFACE TASKS</span>
               <div className="text-2xl font-bold font-mono text-amber-400">{report?.scores.exploration}%</div>
@@ -167,7 +166,7 @@ export default function MissionReport() {
           </div>
         </div>
 
-        {/* ASTRA Flight Director Assessment Paragraph */}
+       
         <div className="p-5 rounded-xl bg-slate-900/90 border border-cyan-500/30 space-y-2">
           <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 font-bold uppercase">
             <Bot className="w-4 h-4" />
@@ -178,12 +177,12 @@ export default function MissionReport() {
           </p>
         </div>
 
-        {/* Disclaimer strip */}
+        
         <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 text-[11px] text-slate-400 text-center">
           {report?.disclaimer}
         </div>
 
-        {/* Certificate CTA */}
+       
         <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
           <button
             onClick={() => navigateTo('dashboard')}

@@ -34,7 +34,7 @@ export default function AstronautRegistration() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
       
-      {/* Header */}
+   
       <div className="text-center mb-8">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/30 text-cyan-400 text-xs font-mono mb-3">
           <Shield className="w-3.5 h-3.5" />
@@ -48,7 +48,6 @@ export default function AstronautRegistration() {
         </p>
       </div>
 
-      {/* Registration Form Card */}
       <div className="glass-panel rounded-2xl border border-cyan-500/30 p-6 sm:p-8 shadow-2xl relative">
         <form onSubmit={handleSubmit} className="space-y-6">
           
@@ -59,7 +58,6 @@ export default function AstronautRegistration() {
             </div>
           )}
 
-          {/* Full Name & Callsign */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-mono text-slate-300 uppercase tracking-wider mb-2">
@@ -88,8 +86,6 @@ export default function AstronautRegistration() {
               />
             </div>
           </div>
-
-          {/* Age Group & Avatar */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-mono text-slate-300 uppercase tracking-wider mb-2">
@@ -129,14 +125,11 @@ export default function AstronautRegistration() {
             </div>
           </div>
 
-          {/* Mission Selection */}
           <div>
             <label className="block text-xs font-mono text-slate-300 uppercase tracking-wider mb-2">
               Select Initial Flight Program
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              
-              {/* Lunar Research - Active */}
               <div
                 onClick={() => setSelectedMission('lunar_research')}
                 className={`p-4 rounded-xl border cursor-pointer transition ${
@@ -159,7 +152,6 @@ export default function AstronautRegistration() {
                 </p>
               </div>
 
-              {/* Mars Exploration - Coming Soon Stub */}
               <div className="p-4 rounded-xl border border-slate-800 bg-space-950/50 opacity-60 cursor-not-allowed">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
@@ -178,7 +170,6 @@ export default function AstronautRegistration() {
             </div>
           </div>
 
-          {/* Submit Button */}
           <div className="pt-2">
             <button
               type="submit"

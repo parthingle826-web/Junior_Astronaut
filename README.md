@@ -114,10 +114,10 @@ junior-astronaut/
 ### 2. Environment Setup
 Create a `.env` file in the project root (a template is provided in `.env.example`):
 ```bash
-# NASA Open API Key (Free from https://api.nasa.gov — DEMO_KEY works out-of-the-box)
+
 NASA_API_KEY=DEMO_KEY
 
-# Gemini AI Key (Get a free key from Google AI Studio at https://aistudio.google.com)
+
 AI_API_KEY=your_gemini_api_key_here
 AI_PROVIDER=gemini
 ```
@@ -125,10 +125,10 @@ AI_PROVIDER=gemini
 
 ### 3. Launch Backend Server
 ```bash
-# Install backend dependencies
+
 pip install -r backend/requirements.txt
 
-# Run FastAPI backend
+
 python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 Backend health check is accessible at `http://127.0.0.1:8000/api/health`.
@@ -138,10 +138,9 @@ In a new terminal window:
 ```bash
 cd frontend
 
-# Install frontend packages
 npm install
 
-# Start Vite development server
+
 npm run dev
 ```
 Open **`http://localhost:5173`** in your browser.

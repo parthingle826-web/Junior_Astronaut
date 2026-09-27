@@ -1,4 +1,4 @@
-// Route mapping and navigation utilities for Junior Astronaut Mission Trainer
+
 
 export const VIEW_TO_PATH = {
   landing: '/',
@@ -17,7 +17,7 @@ export const VIEW_TO_PATH = {
   about: '/about'
 };
 
-// Aliases mapping URL paths or slugs to internal view IDs
+
 export const PATH_TO_VIEW_ALIASES = {
   '': 'landing',
   '/': 'landing',
@@ -48,7 +48,7 @@ export const PATH_TO_VIEW_ALIASES = {
   'about': 'about'
 };
 
-// Views accessible without an enrolled astronaut profile
+
 export const PUBLIC_VIEWS = new Set(['landing', 'register']);
 
 /**
@@ -89,14 +89,14 @@ export const normalizeView = (raw) => {
 export const getViewFromLocation = () => {
   if (typeof window === 'undefined') return 'landing';
 
-  // 1. Check hash first if present (e.g. #/mission-control or #mission-control)
+
   if (window.location.hash) {
     const hashCleaned = window.location.hash.replace(/^#[/]?/, '');
     const hashView = normalizeView(hashCleaned);
     if (hashView) return hashView;
   }
 
-  // 2. Check pathname (e.g. /mission-control)
+
   const pathname = window.location.pathname;
   const pathView = normalizeView(pathname);
   if (pathView) return pathView;
@@ -124,9 +124,9 @@ export const resolveInitialSession = () => {
     : null;
   const savedView = savedRouteRaw ? normalizeView(savedRouteRaw) : null;
 
-  // Case 1: An astronaut profile is enrolled
+  
   if (savedAstronaut) {
-    // If user loaded a specific route via URL (e.g. /mission-control or /training), respect it
+
     if (urlView && urlView !== 'landing') {
       return {
         initialView: urlView,
@@ -136,7 +136,7 @@ export const resolveInitialSession = () => {
       };
     }
 
-    // If user loaded the root '/', resume where they left off
+    
     const resumeView = (savedView && savedView !== 'landing' && savedView !== 'register')
       ? savedView
       : 'dashboard';
@@ -149,10 +149,9 @@ export const resolveInitialSession = () => {
     };
   }
 
-  // Case 2: No astronaut profile (fresh visitor or logged out)
-  // If the user requested a protected route (e.g. /mission-control) without an astronaut:
+  
   if (urlView && isProtectedRoute(urlView)) {
-    // Route guard blocks access -> Redirect to landing (or register)
+
     return {
       initialView: 'landing',
       astronaut: null,
@@ -162,7 +161,6 @@ export const resolveInitialSession = () => {
     };
   }
 
-  // Public route (landing or register)
   const safeView = urlView === 'register' ? 'register' : 'landing';
   return {
     initialView: safeView,

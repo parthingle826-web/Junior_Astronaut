@@ -23,12 +23,7 @@ import AboutPage from './pages/AboutPage';
 
 import { Bot, ShieldAlert, X } from 'lucide-react';
 
-/**
- * Route Guard Component
- * Ensures only enrolled astronauts can access protected views.
- * If no astronaut profile is active in state/localStorage, it immediately blocks rendering
- * and redirects to registration or landing.
- */
+
 function ProtectedRoute({ children }) {
   const { astronaut, navigateTo } = useMission();
 
@@ -88,7 +83,7 @@ function AppContent() {
     <div className="min-h-screen flex flex-col bg-space-950 stars-bg text-slate-100 font-sans">
       <Navbar />
 
-      {/* Route Guard Notice Toast */}
+      
       {routeNotice && (
         <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-lg px-4 pointer-events-auto animate-fadeIn">
           <div className="p-3.5 rounded-xl bg-amber-950/95 border border-amber-500/60 shadow-2xl flex items-center justify-between text-amber-200 text-xs font-mono">
@@ -113,7 +108,6 @@ function AppContent() {
 
       <Footer />
 
-      {/* Floating ASTRA AI Communicator Button (Visible across all screens) */}
       <div className="fixed bottom-6 right-6 z-40 no-print">
         <button
           onClick={() => setIsAstraOpen(true)}
@@ -126,10 +120,10 @@ function AppContent() {
         </button>
       </div>
 
-      {/* Global ASTRA AI Chat Drawer */}
+   
       <AstraChat isOpen={isAstraOpen} onClose={() => setIsAstraOpen(false)} />
 
-      {/* Global Logout / Switch Astronaut Confirmation Modal */}
+     
       <LogoutModal />
     </div>
   );

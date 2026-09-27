@@ -14,9 +14,9 @@ export default function LaunchSequence() {
   
   const [isLaunching, setIsLaunching] = useState(false);
   const [countdown, setCountdown] = useState(10);
-  const [launchStage, setLaunchStage] = useState('pad'); // pad, ignition, liftoff, staging, orbit
-  const [telemetryAltitude, setTelemetryAltitude] = useState(0); // km
-  const [telemetryVelocity, setTelemetryVelocity] = useState(0); // km/s
+  const [launchStage, setLaunchStage] = useState('pad'); 
+  const [telemetryAltitude, setTelemetryAltitude] = useState(0); 
+  const [telemetryVelocity, setTelemetryVelocity] = useState(0); 
 
   const allChecksReady = 
     checklist.eclssNominal && 
@@ -25,7 +25,6 @@ export default function LaunchSequence() {
     checklist.sensorDiscrepancyResolved && 
     checklist.hatchSealed;
 
-  // 1. Countdown timer
   useEffect(() => {
     if (!isLaunching || countdown <= 0) return;
     const interval = setInterval(() => {
@@ -34,14 +33,12 @@ export default function LaunchSequence() {
     return () => clearInterval(interval);
   }, [isLaunching, countdown]);
 
-  // 2. Liftoff stage trigger when countdown reaches 0
   useEffect(() => {
     if (isLaunching && countdown === 0 && launchStage === 'pad') {
       setLaunchStage('liftoff');
     }
   }, [isLaunching, countdown, launchStage]);
-
-  // 3. Flight altitude and velocity telemetry simulation
+  
   useEffect(() => {
     if (launchStage !== 'liftoff') return;
 
@@ -60,7 +57,7 @@ export default function LaunchSequence() {
     return () => clearInterval(flightTimer);
   }, [launchStage]);
 
-  // 4. Orbit stage achieved and transfer to mission control
+
   useEffect(() => {
     if (launchStage === 'liftoff' && telemetryAltitude >= 380) {
       setLaunchStage('orbit');
@@ -85,7 +82,6 @@ export default function LaunchSequence() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       
-      {/* Header */}
       <div className="text-center max-w-3xl mx-auto space-y-2">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950 border border-cyan-500/30 text-cyan-400 font-mono text-xs uppercase tracking-wider">
           <Rocket className="w-3.5 h-3.5" />
@@ -100,7 +96,7 @@ export default function LaunchSequence() {
       </div>
 
       {!isLaunching ? (
-        /* Pre-Launch Verification Deck */
+     
         <div className="glass-panel rounded-2xl border border-cyan-500/30 p-6 sm:p-8 shadow-2xl space-y-6">
           
           <div className="flex items-center justify-between pb-4 border-b border-slate-800">
@@ -117,10 +113,9 @@ export default function LaunchSequence() {
             </span>
           </div>
 
-          {/* Checklist Items */}
           <div className="space-y-3">
             
-            {/* Check 1 */}
+           
             <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
@@ -134,7 +129,7 @@ export default function LaunchSequence() {
               </span>
             </div>
 
-            {/* Check 2 */}
+       
             <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
@@ -148,7 +143,7 @@ export default function LaunchSequence() {
               </span>
             </div>
 
-            {/* Check 3: The Deliberate Warning Anomaly */}
+            
             <div className={`p-4 rounded-xl border transition ${
               checklist.sensorDiscrepancyResolved
                 ? 'bg-slate-900/80 border-slate-800'
@@ -195,7 +190,6 @@ export default function LaunchSequence() {
               </div>
             </div>
 
-            {/* Check 4 */}
             <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
@@ -209,7 +203,6 @@ export default function LaunchSequence() {
               </span>
             </div>
 
-            {/* Check 5 */}
             <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
@@ -225,7 +218,6 @@ export default function LaunchSequence() {
 
           </div>
 
-          {/* Ignition Control Button */}
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-800">
             <div className="text-xs font-mono text-slate-400">
               {allChecksReady 
@@ -246,33 +238,33 @@ export default function LaunchSequence() {
 
         </div>
       ) : (
-        /* Animated Launch Sequence View */
+        
         <div className="glass-panel rounded-2xl border border-cyan-500/40 p-8 shadow-2xl text-center space-y-8 relative overflow-hidden">
           
-          {/* Animated Rocket Launch Visual */}
+       
           <div className="relative h-64 w-full bg-gradient-to-b from-space-950 via-slate-900 to-space-950 rounded-xl border border-cyan-500/20 flex flex-col items-center justify-center overflow-hidden">
             
-            {/* Stars background animation */}
+         
             <div className="absolute inset-0 stars-bg opacity-70 animate-pulse" />
 
-            {/* Trajectory Rocket */}
+            
             <div className={`relative transition-all duration-1000 ${
               countdown > 0 ? 'translate-y-8' : '-translate-y-12 scale-110'
             }`}>
               <div className="w-16 h-28 mx-auto flex flex-col items-center">
-                {/* Rocket Capsule & Fairing */}
+               
                 <div className="w-8 h-12 bg-slate-200 rounded-t-full border border-slate-400 flex items-center justify-center shadow-lg">
                   <div className="w-2.5 h-2.5 rounded-full bg-cyan-500/80 border border-cyan-300" />
                 </div>
-                {/* Rocket Main Booster Core */}
+                
                 <div className="w-10 h-16 bg-gradient-to-b from-orange-500 via-orange-600 to-orange-700 rounded-b-md relative flex items-center justify-center border border-orange-400">
                   <span className="text-[9px] font-mono text-white font-bold rotate-90">NASA</span>
-                  {/* Solid Rocket Boosters on side */}
+                  
                   <div className="absolute -left-2 top-2 w-2 h-14 bg-slate-100 rounded-full border border-slate-300" />
                   <div className="absolute -right-2 top-2 w-2 h-14 bg-slate-100 rounded-full border border-slate-300" />
                 </div>
 
-                {/* Ignition Plume */}
+               
                 {countdown <= 3 && (
                   <div className="flex flex-col items-center -mt-1 animate-pulse">
                     <div className="w-8 h-12 bg-gradient-to-b from-yellow-300 via-orange-500 to-transparent rounded-b-full blur-[1px]" />
@@ -282,14 +274,14 @@ export default function LaunchSequence() {
               </div>
             </div>
 
-            {/* Launch Callout Text Overlay */}
+           
             <div className="absolute bottom-3 left-4 right-4 flex justify-between text-xs font-mono text-cyan-400">
               <span>TRAJECTORY: {launchStage.toUpperCase()}</span>
               <span>SLS BOOSTER STAGE: {countdown > 0 ? 'ARMED' : 'BURNING'}</span>
             </div>
           </div>
 
-          {/* Countdown & Live Telemetry Readout */}
+         
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono">
             
             <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
@@ -320,7 +312,7 @@ export default function LaunchSequence() {
 
           </div>
 
-          {/* Direct Transfer Button (or Auto) */}
+        
           {launchStage === 'orbit' && (
             <div className="p-4 rounded-xl bg-emerald-950/80 border border-emerald-500 text-emerald-200 text-xs font-mono flex items-center justify-between animate-fadeIn">
               <div className="flex items-center gap-2">

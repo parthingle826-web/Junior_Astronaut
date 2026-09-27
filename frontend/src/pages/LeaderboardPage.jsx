@@ -33,7 +33,6 @@ export default function LeaderboardPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       
-      {/* Header */}
       <div className="text-center max-w-3xl mx-auto space-y-2">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950 border border-cyan-500/30 text-cyan-400 font-mono text-xs uppercase">
           <Trophy className="w-3.5 h-3.5" />
@@ -47,7 +46,6 @@ export default function LeaderboardPage() {
         </p>
       </div>
 
-      {/* Cadet's Own Rank Card if registered */}
       {astronaut && (
         <div className="p-4 rounded-xl bg-cyan-950/40 border border-cyan-400/50 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg shadow-cyan-500/10">
           <div className="flex items-center gap-3">
@@ -80,7 +78,6 @@ export default function LeaderboardPage() {
         </div>
       )}
 
-      {/* Leaderboard Table Card */}
       <div className="glass-panel rounded-2xl border border-cyan-500/30 p-6 shadow-2xl overflow-x-auto">
         <table className="w-full text-left text-xs font-mono">
           <thead>

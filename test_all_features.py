@@ -25,7 +25,7 @@ def run_tests():
     total_count = 0
     client = httpx.Client(base_url=BASE_URL, timeout=12.0)
 
-    # TEST 1: Frontend Server Availability
+
     total_count += 1
     try:
         r = httpx.get(FRONTEND_URL, timeout=5.0)
@@ -35,7 +35,6 @@ def run_tests():
     except Exception as e:
         print_test("Frontend Dev Server (localhost:5173)", False, str(e))
 
-    # TEST 2: Backend Health Endpoint
     total_count += 1
     try:
         r = client.get("/api/health")
@@ -46,7 +45,7 @@ def run_tests():
     except Exception as e:
         print_test("Backend Health Check (/api/health)", False, str(e))
 
-    # TEST 3: Initial Mission State Fetch
+
     total_count += 1
     state = {}
     try:
@@ -58,7 +57,6 @@ def run_tests():
     except Exception as e:
         print_test("Mission Initial State Generator", False, str(e))
 
-    # TEST 4: Scenarios Library & Schema Verification
     total_count += 1
     scenarios = []
     try:
@@ -72,7 +70,7 @@ def run_tests():
     except Exception as e:
         print_test("Scenarios Engine Library (4 Scenarios)", False, str(e))
 
-    # TEST 5: Deterministic Decision Evaluation (Solar Radiation Storm)
+   
     total_count += 1
     updated_state = state
     try:
@@ -89,13 +87,13 @@ def run_tests():
     except Exception as e:
         print_test("Emergency Decision Evaluation (Solar Radiation)", False, str(e))
 
-    # TEST 6: Deterministic Failure & Risk Escalation Evaluation (Oxygen Leak Wrong Answer)
+   
     total_count += 1
     try:
         r = client.post("/api/missions/evaluate", json={
             "currentState": updated_state,
             "scenarioId": "oxygen-leak",
-            "chosenOptionId": "increase_flow" # Wrong choice!
+            "chosenOptionId": "increase_flow" 
         })
         res = r.json()
         wrong_state = res.get("updatedState", {})
@@ -105,7 +103,7 @@ def run_tests():
     except Exception as e:
         print_test("Emergency Failure Penalty & Risk Escalation", False, str(e))
 
-    # TEST 7: 6 Lunar Science Challenges
+   
     total_count += 1
     challenges = []
     try:
@@ -117,7 +115,7 @@ def run_tests():
     except Exception as e:
         print_test("Lunar Surface Science Challenges (6 Challenges)", False, str(e))
 
-    # TEST 8: Lunar Challenge Answer Evaluation
+
     total_count += 1
     try:
         r = client.post("/api/missions/evaluate-lunar", json={
@@ -131,7 +129,6 @@ def run_tests():
     except Exception as e:
         print_test("Lunar Science Evaluation (Water Ice Detection)", False, str(e))
 
-    # TEST 9: NASA Data: APOD
     total_count += 1
     try:
         r = client.get("/api/nasa/apod")
@@ -143,7 +140,7 @@ def run_tests():
     except Exception as e:
         print_test("NASA API: Astronomy Picture of the Day (APOD)", False, str(e))
 
-    # TEST 10: NASA Data: Earth EPIC
+    
     total_count += 1
     try:
         r = client.get("/api/nasa/earth")
@@ -154,7 +151,7 @@ def run_tests():
     except Exception as e:
         print_test("NASA API: DSCOVR EPIC Earth Imagery", False, str(e))
 
-    # TEST 11: NASA Data: Moon LRO Archives
+    
     total_count += 1
     try:
         r = client.get("/api/nasa/moon")
@@ -165,7 +162,7 @@ def run_tests():
     except Exception as e:
         print_test("NASA API: Lunar Reconnaissance Orbiter (LRO)", False, str(e))
 
-    # TEST 12: NASA Data: Space Weather (DONKI)
+    
     total_count += 1
     try:
         r = client.get("/api/nasa/space-weather")
@@ -177,7 +174,7 @@ def run_tests():
     except Exception as e:
         print_test("NASA API: DONKI Real-Time Space Weather", False, str(e))
 
-    # TEST 13: ASTRA AI Assistant (Context-Aware Mode)
+    
     total_count += 1
     try:
         r = client.post("/api/ai/astra", json={
@@ -194,7 +191,7 @@ def run_tests():
     except Exception as e:
         print_test("ASTRA AI Flight Director (Context-Aware)", False, str(e))
 
-    # TEST 14: ASTRA AI Assistant (Student Science Tutor Mode)
+    
     total_count += 1
     try:
         r = client.post("/api/ai/astra", json={
@@ -211,7 +208,6 @@ def run_tests():
     except Exception as e:
         print_test("ASTRA AI Space Science Tutor", False, str(e))
 
-    # TEST 15: Cadet Leaderboard
     total_count += 1
     try:
         r = client.get("/api/leaderboard")
@@ -222,7 +218,7 @@ def run_tests():
     except Exception as e:
         print_test("Global Cadet Leaderboard (/api/leaderboard)", False, str(e))
 
-    # TEST 16: Final Mission Report & Certificate Generation
+  
     total_count += 1
     try:
         r = client.post("/api/missions/report", json={
